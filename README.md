@@ -95,3 +95,23 @@ pytest
 - Nombre de la marca: plantillas `base.html`, `index.html`, `sobre.html` y `privacidad.html`.
 - Servicios, proceso de trabajo y artículos: `backend/app/content.py`.
 - Colores y tipografías: variables al principio de `backend/app/static/css/style.css`.
+
+## Panel de administración
+
+Las cuentas de administrador no se crean desde la web. Se crean desde la terminal, con una contraseña que tú eliges en el momento:
+
+```bash
+docker compose exec -it web flask create-admin
+```
+
+Te pedirá correo, nombre y contraseña (mínimo 12 caracteres). Después entra con esa cuenta y pulsa **Administración** en la cabecera, o ve a `/admin`. Desde ahí puedes ver las solicitudes de auditoría, cambiar su estado, leer los mensajes de contacto y consultar los usuarios.
+
+## Acceso desde la red local (clase)
+
+La web se publica en el puerto 8000 de tu equipo. Tus compañeros pueden entrar con `http://IP_DEL_EQUIPO:8000` si están en la misma red y el equipo está en un perfil de red **Privado**. La IP se ve con `ipconfig`. Para permitir la conexión en Windows, ejecuta una vez en PowerShell como administrador:
+
+```powershell
+New-NetFirewallRule -DisplayName "Davem Web 8000" -Direction Inbound -Protocol TCP -LocalPort 8000 -Action Allow -Profile Private
+```
+
+Mientras la web esté expuesta, la conexión es HTTP sin cifrar. Apaga el servicio con `docker compose down` cuando termines.

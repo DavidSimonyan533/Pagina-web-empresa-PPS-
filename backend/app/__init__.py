@@ -1,7 +1,9 @@
+import click
 from flask import Flask, render_template
 
 from .config import Config
 from .extensions import csrf, db, limiter, login_manager
+from .security import hash_password
 
 
 def create_app(test_config=None):
@@ -24,12 +26,13 @@ def create_app(test_config=None):
     login_manager.login_message_category = "info"
     login_manager.session_protection = "strong"
 
-    from . import auth, cliente, main
+    from . import admin, auth, cliente, main
     from . import models  # noqa: F401  (registra las tablas)
 
     app.register_blueprint(main.bp)
     app.register_blueprint(auth.bp)
     app.register_blueprint(cliente.bp)
+    app.register_blueprint(admin.bp)
 
     @app.after_request
     def security_headers(response):
@@ -41,34 +44,55 @@ def create_app(test_config=None):
         response.headers["X-Frame-Options"] = "DENY"
         response.headers["Referrer-Policy"] = "strict-origin-when-cross-origin"
         response.headers["Permissions-Policy"] = "camera=(), microphone=(), geolocation=()"
-        if request_is_private(response):
+        if request_is_private():
             response.headers["Cache-Control"] = "no-store"
         return response
 
+    def error_page(codigo, titulo, texto):
+        return render_template("error.html", codigo=codigo, titulo=titulo, texto=texto), codigo
+
+    @app.errorhandler(403)
+    def forbidden(_):
+        return error_page(403, "Acceso no permitido", "No tienes permiso para ver esta página.")
+
     @app.errorhandler(404)
     def not_found(_):
-        return render_template("error.html", codigo=404, titulo="Página no encontrada",
-                               texto="La dirección no existe o ha cambiado de sitio."), 404
-
-    @app.errorhandler(429)
-    def too_many(_):
-        return render_template("error.html", codigo=429, titulo="Demasiados intentos",
-                               texto="Espera un minuto antes de volver a intentarlo."), 429
+        return error_page(404, "Página no encontrada", "La dirección no existe o ha cambiado de sitio.")
 
     @app.errorhandler(413)
     def too_large(_):
-        return render_template("error.html", codigo=413, titulo="Envío demasiado grande",
-                               texto="Reduce el tamaño del mensaje e inténtalo de nuevo."), 413
+        return error_page(413, "Envío demasiado grande", "Reduce el tamaño del mensaje e inténtalo de nuevo.")
+
+    @app.errorhandler(429)
+    def too_many(_):
+        return error_page(429, "Demasiados intentos", "Espera un minuto antes de volver a intentarlo.")
 
     @app.errorhandler(500)
     def server_error(_):
-        return render_template("error.html", codigo=500, titulo="Algo ha fallado",
-                               texto="Hemos registrado el problema. Inténtalo de nuevo en unos minutos."), 500
+        return error_page(500, "Algo ha fallado", "Inténtalo de nuevo en unos minutos.")
+
+    @app.cli.command("create-admin")
+    @click.option("--email", prompt="Correo del administrador")
+    @click.option("--nombre", prompt="Nombre", default="Administrador")
+    @click.password_option(help="Contraseña de al menos 12 caracteres")
+    def create_admin(email, nombre, password):
+        """Crea (o convierte en administrador) una cuenta. Solo lo ejecuta quien tiene acceso a la máquina."""
+        if len(password) < 12:
+            raise click.ClickException("La contraseña debe tener al menos 12 caracteres.")
+        email = email.strip().lower()
+        user = models.User.query.filter_by(email=email).first()
+        if user is None:
+            user = models.User(nombre=nombre.strip(), email=email)
+            db.session.add(user)
+        user.password_hash = hash_password(password)
+        user.is_admin = True
+        db.session.commit()
+        click.echo(f"Administrador preparado: {email}")
 
     return app
 
 
-def request_is_private(response):
-    """Las páginas de sesión y de cliente no deben quedar en caché."""
+def request_is_private():
+    """Las páginas de sesión, cliente y administración no deben quedar en caché."""
     from flask import request
-    return request.path.startswith(("/cliente", "/login", "/registro", "/logout"))
+    return request.path.startswith(("/cliente", "/admin", "/login", "/registro", "/logout"))

@@ -137,3 +137,25 @@ def get_service(slug):
 
 def get_post(slug):
     return next((p for p in POSTS if p["slug"] == slug), None)
+
+CREDENCIALES = [
+    {
+        "titulo": "Objetivo: ISO/IEC 27001 en 2027",
+        "texto": "Queremos certificar nuestro propio sistema de gestión de seguridad de la información con un organismo acreditado, para demostrar que aplicamos lo que recomendamos.",
+    },
+    {
+        "titulo": "Método: ISO 19011",
+        "texto": "Nuestras auditorías internas siguen las directrices de la ISO 19011 para planificar, ejecutar e informar.",
+    },
+    {
+        "titulo": "Marcos de referencia",
+        "texto": "ISO/IEC 27001, Esquema Nacional de Seguridad, NIS2, ISO/IEC 42001 y RGPD: los textos oficiales son nuestra referencia de trabajo.",
+    },
+]
+
+VALORES = [
+    ("Lenguaje claro", "Cada hallazgo se explica sin jerga, con su riesgo y una recomendación concreta."),
+    ("Alcance por escrito", "Acordamos por escrito qué se revisa, cuándo y con qué medios antes de empezar."),
+    ("Autorización previa", "Ninguna prueba técnica se hace sin autorización escrita de la dirección."),
+    ("Confidencialidad", "La información de tu organización solo la ve el equipo que trabaja en tu caso."),
+]

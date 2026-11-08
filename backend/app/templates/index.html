@@ -3,16 +3,36 @@
 <section class="hero">
   <div class="wrap hero-grid">
     <div class="hero-copy">
+      <p class="kicker">Ciberseguridad y cumplimiento normativo</p>
       <h1>Que el auditor no sea el primero en encontrar tus fallos.</h1>
-      <p class="lead">Consultoría de ciberseguridad y cumplimiento normativo para empresas y administraciones públicas: auditoría interna, ISO 27001, ENS y NIS2.</p>
+      <p class="lead">Consultoría para empresas y administraciones públicas: auditoría interna, ISO/IEC 27001, Esquema Nacional de Seguridad y NIS2.</p>
       <div class="actions">
         <a class="btn" href="{{ url_for('cliente.solicitar') }}">Solicitar una auditoría</a>
         <a class="btn btn-ghost" href="{{ url_for('main.servicios') }}">Ver servicios</a>
       </div>
     </div>
+    <div class="hero-art">
+      <img src="{{ url_for('static', filename='img/hero.svg') }}" width="480" height="480" alt="">
+    </div>
+  </div>
+</section>
 
-    <figure class="report" aria-label="Ejemplo ilustrativo de informe de hallazgos">
-      <figcaption>Ejemplo ilustrativo de informe de hallazgos. Pulsa un hallazgo para ver el detalle.</figcaption>
+<section class="credenciales">
+  <div class="wrap cred-grid">
+    {% for c in credenciales %}
+    <div class="cred reveal">
+      <h2>{{ c.titulo }}</h2>
+      <p>{{ c.texto }}</p>
+    </div>
+    {% endfor %}
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <h2 class="reveal">Así es un informe de hallazgos</h2>
+    <p class="reveal">Cada punto indica la norma, el estado y qué hacer. Ejemplo ilustrativo; pulsa un hallazgo para ver el detalle.</p>
+    <figure class="report reveal" aria-label="Ejemplo ilustrativo de informe de hallazgos">
       <details class="finding" open>
         <summary>
           <span class="ref">ENS op.acc.5</span>
@@ -41,12 +61,12 @@
   </div>
 </section>
 
-<section class="section">
+<section class="section section-tint">
   <div class="wrap">
-    <h2>Qué normas y servicios cubrimos</h2>
+    <h2 class="reveal">Qué normas y servicios cubrimos</h2>
     <ul class="norm-list">
       {% for s in services[:6] %}
-      <li>
+      <li class="reveal">
         <a href="{{ url_for('main.servicios') }}#{{ s.slug }}">
           <span class="norm-name">{{ s.nombre }}</span>
           <span class="ref">{{ s.ref }}</span>
@@ -58,12 +78,12 @@
   </div>
 </section>
 
-<section class="section section-tint">
+<section class="section">
   <div class="wrap">
-    <h2>Cómo trabajamos</h2>
+    <h2 class="reveal">Cómo trabajamos</h2>
     <ol class="steps">
       {% for titulo, texto in process %}
-      <li>
+      <li class="reveal">
         <h3>{{ titulo }}</h3>
         <p>{{ texto }}</p>
       </li>
@@ -72,12 +92,26 @@
   </div>
 </section>
 
+<section class="section section-tint">
+  <div class="wrap">
+    <h2 class="reveal">Nuestros principios</h2>
+    <div class="values">
+      {% for titulo, texto in valores %}
+      <div class="value reveal">
+        <h3>{{ titulo }}</h3>
+        <p>{{ texto }}</p>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
 <section class="section">
   <div class="wrap">
-    <h2>Del blog</h2>
+    <h2 class="reveal">Del blog</h2>
     <ul class="post-list">
       {% for p in posts %}
-      <li>
+      <li class="reveal">
         <h3><a href="{{ url_for('main.blog_post', slug=p.slug) }}">{{ p.titulo }}</a></h3>
         <p>{{ p.resumen }}</p>
       </li>

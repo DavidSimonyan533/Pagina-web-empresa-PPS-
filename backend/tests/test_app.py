@@ -91,3 +91,21 @@ def test_solicitar_auditoria(client):
     )
     assert r.status_code == 302
     assert b"Esquema Nacional" in client.get("/cliente/").data
+
+
+def test_panel_admin_solo_para_administradores(client):
+    from app.models import User
+    from app.security import hash_password
+
+    registrar(client)
+    client.post("/login", data={"email": "ana@example.com", "password": "una-frase-bien-larga-1"})
+    assert client.get("/admin/").status_code == 403
+
+    client.get("/logout")
+    with client.application.app_context():
+        db.session.add(
+            User(nombre="Admin", email="admin@example.com", password_hash=hash_password("otra-frase-muy-larga-2"), is_admin=True)
+        )
+        db.session.commit()
+    client.post("/login", data={"email": "admin@example.com", "password": "otra-frase-muy-larga-2"})
+    assert client.get("/admin/").status_code == 200

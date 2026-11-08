@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+{% block title %}Administración · Davem Cyber Consulting{% endblock %}
+{% block content %}
+<section class="page-head">
+  <div class="wrap">
+    <h1>Administración</h1>
+    <p class="lead">Solicitudes, mensajes de contacto y usuarios registrados.</p>
+  </div>
+</section>
+<section class="wrap admin">
+  <div class="stats">
+    <p><strong>{{ solicitudes|length }}</strong> solicitudes</p>
+    <p><strong>{{ mensajes|length }}</strong> mensajes</p>
+    <p><strong>{{ usuarios|length }}</strong> usuarios</p>
+  </div>
+
+  <h2>Solicitudes de auditoría</h2>
+  {% if solicitudes %}
+  <div class="table-scroll">
+    <table>
+      <thead>
+        <tr><th scope="col">Fecha</th><th scope="col">Cliente</th><th scope="col">Servicio</th><th scope="col">Tamaño</th><th scope="col">Descripción</th><th scope="col">Estado</th></tr>
+      </thead>
+      <tbody>
+        {% for r in solicitudes %}
+        <tr>
+          <td>{{ r.creado.strftime('%d/%m/%Y %H:%M') }}</td>
+          <td>{{ r.usuario.nombre }}<br><small>{{ r.usuario.email }}{% if r.usuario.empresa %} · {{ r.usuario.empresa }}{% endif %}</small></td>
+          <td>{{ (get_service(r.servicio) or {}).get('nombre', r.servicio) }}</td>
+          <td>{{ r.tamano }}</td>
+          <td class="desc">{{ r.descripcion }}{% if r.fecha_preferida %}<br><small>Inicio preferido: {{ r.fecha_preferida.strftime('%d/%m/%Y') }}</small>{% endif %}</td>
+          <td>
+            <form method="post" action="{{ url_for('admin.estado', solicitud_id=r.id) }}" class="inline-form">
+              <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+              <label class="sr-only" for="estado-{{ r.id }}">Estado de la solicitud {{ r.id }}</label>
+              <select id="estado-{{ r.id }}" name="estado">
+                {% for e in estados %}<option value="{{ e }}"{% if e == r.estado %} selected{% endif %}>{{ e }}</option>{% endfor %}
+              </select>
+              <button class="btn btn-small" type="submit">Guardar</button>
+            </form>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% else %}
+  <p class="empty">Todavía no hay solicitudes.</p>
+  {% endif %}
+
+  <h2>Mensajes de contacto</h2>
+  {% if mensajes %}
+  <div class="table-scroll">
+    <table>
+      <thead><tr><th scope="col">Fecha</th><th scope="col">Remitente</th><th scope="col">Asunto</th><th scope="col">Mensaje</th></tr></thead>
+      <tbody>
+        {% for m in mensajes %}
+        <tr>
+          <td>{{ m.creado.strftime('%d/%m/%Y %H:%M') }}</td>
+          <td>{{ m.nombre }}<br><small>{{ m.email }}</small></td>
+          <td>{{ m.asunto }}</td>
+          <td class="desc">{{ m.mensaje }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% else %}
+  <p class="empty">No hay mensajes de contacto.</p>
+  {% endif %}
+
+  <h2>Usuarios</h2>
+  <div class="table-scroll">
+    <table>
+      <thead><tr><th scope="col">Alta</th><th scope="col">Nombre</th><th scope="col">Correo</th><th scope="col">Empresa</th><th scope="col">Rol</th></tr></thead>
+      <tbody>
+        {% for u in usuarios %}
+        <tr>
+          <td>{{ u.creado.strftime('%d/%m/%Y') }}</td>
+          <td>{{ u.nombre }}</td>
+          <td>{{ u.email }}</td>
+          <td>{{ u.empresa or '—' }}</td>
+          <td>{{ 'Administrador' if u.is_admin else 'Cliente' }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</section>
+{% endblock %}

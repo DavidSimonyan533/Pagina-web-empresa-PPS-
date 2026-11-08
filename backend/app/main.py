@@ -1,6 +1,6 @@
 from flask import Blueprint, abort, flash, redirect, render_template, url_for
 
-from .content import POSTS, PROCESS, SERVICES, get_post
+from .content import CREDENCIALES, POSTS, PROCESS, SERVICES, VALORES, get_post
 from .extensions import db, limiter
 from .forms import ContactForm
 from .models import ContactMessage
@@ -10,7 +10,14 @@ bp = Blueprint("main", __name__)
 
 @bp.route("/")
 def index():
-    return render_template("index.html", services=SERVICES, process=PROCESS, posts=POSTS[:2])
+    return render_template(
+        "index.html",
+        services=SERVICES,
+        process=PROCESS,
+        posts=POSTS[:2],
+        credenciales=CREDENCIALES,
+        valores=VALORES,
+    )
 
 
 @bp.route("/servicios")
@@ -20,7 +27,7 @@ def servicios():
 
 @bp.route("/sobre-nosotros")
 def sobre():
-    return render_template("sobre.html")
+    return render_template("sobre.html", valores=VALORES, credenciales=CREDENCIALES)
 
 
 @bp.route("/blog")

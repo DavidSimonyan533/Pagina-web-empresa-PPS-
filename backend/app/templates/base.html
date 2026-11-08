@@ -5,7 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{% block title %}Davem Cyber Consulting{% endblock %}</title>
   <meta name="description" content="{% block description %}Consultoría de ciberseguridad y cumplimiento normativo: auditoría interna, ISO 27001, ENS y NIS2.{% endblock %}">
+  <link rel="icon" href="{{ url_for('static', filename='img/favicon.svg') }}" type="image/svg+xml">
   <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <script src="{{ url_for('static', filename='js/main.js') }}" defer></script>
 </head>
 <body>
 <a class="skip" href="#contenido">Saltar al contenido</a>
@@ -13,10 +15,7 @@
 <header class="site-header">
   <div class="wrap bar">
     <a class="brand" href="{{ url_for('main.index') }}" aria-label="Davem Cyber Consulting, inicio">
-      <svg width="30" height="34" viewBox="0 0 30 34" aria-hidden="true" focusable="false">
-        <path d="M15 1.5 27.5 6v10.2c0 8.2-5.2 14-12.5 16.3C7.7 30.2 2.5 24.4 2.5 16.2V6L15 1.5Z" fill="var(--ink)"/>
-        <path d="M9.500 16.800l4 4 7-8.300" fill="none" stroke="var(--signal)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-      </svg>
+      <img src="{{ url_for('static', filename='img/favicon.svg') }}" width="30" height="34" alt="">
       <span>Davem <span class="brand-light">Cyber Consulting</span></span>
     </a>
     <nav class="nav" aria-label="Principal">
@@ -27,6 +26,7 @@
     </nav>
     <div class="session">
       {% if current_user.is_authenticated %}
+        {% if current_user.is_admin %}<a href="{{ url_for('admin.panel') }}">Administración</a>{% endif %}
         <a href="{{ url_for('cliente.area') }}">Mi área</a>
         <form method="post" action="{{ url_for('auth.logout') }}" class="inline">
           <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">

@@ -189,3 +189,57 @@ tbody tr:last-child td { border-bottom: 0; }
 @media (max-width: 520px) {
   .steps { grid-template-columns: 1fr; }
 }
+
+/* ---------- Añadido: animaciones, portada, credenciales, admin ---------- */
+
+.kicker { font-size: .9rem; font-weight: 700; color: var(--signal-dark); margin-bottom: .6rem; }
+.hero-art img { width: 100%; height: auto; max-width: 480px; justify-self: center; }
+@media (prefers-reduced-motion: no-preference) {
+  .hero-art img { animation: flotar 7s ease-in-out infinite; }
+  @keyframes flotar { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+  .hero-copy > * { animation: subir .7s ease both; }
+  .hero-copy > *:nth-child(2) { animation-delay: .1s; }
+  .hero-copy > *:nth-child(3) { animation-delay: .2s; }
+  .hero-copy > *:nth-child(4) { animation-delay: .3s; }
+  @keyframes subir { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
+}
+
+/* Revelado al hacer scroll (solo si hay JavaScript) */
+html.js .reveal { opacity: 0; transform: translateY(16px); transition: opacity .6s ease, transform .6s ease; }
+html.js .reveal.is-visible { opacity: 1; transform: none; }
+html.js .steps .reveal:nth-child(2), html.js .values .reveal:nth-child(2), html.js .cred-grid .reveal:nth-child(2) { transition-delay: .1s; }
+html.js .steps .reveal:nth-child(3), html.js .values .reveal:nth-child(3), html.js .cred-grid .reveal:nth-child(3) { transition-delay: .2s; }
+html.js .steps .reveal:nth-child(4), html.js .values .reveal:nth-child(4) { transition-delay: .3s; }
+@media (prefers-reduced-motion: reduce) {
+  html.js .reveal { opacity: 1; transform: none; transition: none; }
+  .hero-art img, .hero-copy > * { animation: none !important; }
+}
+
+.credenciales { background: var(--ink); color: #fff; padding-block: 2.2rem; }
+.cred-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+.cred { border-left: 3px solid var(--signal); padding-left: 1rem; }
+.cred h2 { font-size: 1.1rem; margin-bottom: .4rem; color: #fff; }
+.cred p { color: #d3dbe8; font-size: .97rem; margin: 0; }
+
+.values { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.4rem; }
+.value { background: var(--surface); border: 1px solid var(--rule); border-radius: 4px; padding: 1.2rem; }
+.value h3 { font-size: 1.05rem; }
+.value p { font-size: .95rem; color: var(--ink-soft); margin: 0; }
+
+.inline-form { display: flex; gap: .4rem; align-items: center; flex-wrap: wrap; margin: 0; }
+.inline-form select { width: auto; min-width: 11rem; padding: .35rem .5rem; font-size: .92rem; }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+.admin h2 { margin-top: 2.4rem; }
+.admin small { color: var(--ink-soft); }
+.admin .desc { max-width: 42ch; white-space: pre-wrap; }
+.stats { display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 1.5rem; }
+.stats p { background: var(--surface); border: 1px solid var(--rule); border-top: 4px solid var(--ink); padding: .8rem 1.2rem; margin: 0; min-width: 9rem; }
+.stats strong { font-family: var(--serif); font-size: 1.8rem; display: block; line-height: 1.1; }
+
+@media (max-width: 860px) {
+  .cred-grid, .values { grid-template-columns: 1fr; }
+}
+@media (min-width: 861px) and (max-width: 1000px) {
+  .values { grid-template-columns: repeat(2, 1fr); }
+}

@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 480" role="img" aria-label="Escudo de protección rodeado de una red de nodos conectados">
+  <defs>
+    <linearGradient id="escudo" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#14213d"/>
+      <stop offset="1" stop-color="#2b4a7a"/>
+    </linearGradient>
+  </defs>
+  <circle cx="240" cy="240" r="205" fill="none" stroke="#c7d0dd" stroke-width="1.5" stroke-dasharray="4 8"/>
+  <circle cx="240" cy="240" r="150" fill="none" stroke="#c7d0dd" stroke-width="1"/>
+  <g stroke="#7d8fab" stroke-width="2" fill="none">
+    <path d="M240 90 L100 150 L80 300 L240 390 L400 300 L380 150 Z"/>
+    <path d="M100 150 L240 240 L380 150 M240 240 L80 300 M240 240 L400 300 M240 240 L240 390 M240 90 L240 240"/>
+  </g>
+  <path d="M240 110 L355 158 V270 C355 340 305 378 240 400 C175 378 125 340 125 270 V158 Z" fill="url(#escudo)"/>
+  <path d="M190 252 l36 36 l68 -76" fill="none" stroke="#e8a317" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"/>
+  <g fill="#e8a317">
+    <circle cx="240" cy="90" r="9"><animate attributeName="opacity" values="1;.35;1" dur="3.2s" repeatCount="indefinite"/></circle>
+    <circle cx="100" cy="150" r="9"><animate attributeName="opacity" values=".35;1;.35" dur="3.2s" repeatCount="indefinite"/></circle>
+    <circle cx="380" cy="150" r="9"><animate attributeName="opacity" values="1;.35;1" dur="3.6s" repeatCount="indefinite"/></circle>
+    <circle cx="80" cy="300" r="9"><animate attributeName="opacity" values=".35;1;.35" dur="4s" repeatCount="indefinite"/></circle>
+    <circle cx="400" cy="300" r="9"><animate attributeName="opacity" values="1;.35;1" dur="4.4s" repeatCount="indefinite"/></circle>
+    <circle cx="240" cy="390" r="9"><animate attributeName="opacity" values=".35;1;.35" dur="3.8s" repeatCount="indefinite"/></circle>
+  </g>
+</svg>
