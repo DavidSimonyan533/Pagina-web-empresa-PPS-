@@ -1,7 +1,7 @@
 from flask import Blueprint, abort, flash, redirect, render_template, url_for
 
 from .content import (
-    CREDENCIALES, DIAGNOSTICO, ESCENARIOS, FACTOR_PLAZO, FUNDADOR, FACTOR_TAMANO, FAQ, PACKS, POSTS, PROCESS, SERVICES, VALORES, get_post,
+    CREDENCIALES, DIAGNOSTICO, ESCENARIOS, FACTOR_PLAZO, FUNDADOR, FACTOR_TAMANO, FAQ, PACKS, POSTS, PROCESS, SERVICES, VALORES, get_post, get_service,
 )
 from .extensions import db, limiter
 from .forms import ContactForm

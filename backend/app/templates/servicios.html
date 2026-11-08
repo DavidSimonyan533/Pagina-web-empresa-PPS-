@@ -9,8 +9,12 @@
   </div>
 </section>
 <section class="wrap service-list">
+  <div class="svc-search">
+    <label class="sr-only" for="svc-filter">Buscar un servicio</label>
+    <input type="search" id="svc-filter" placeholder="Busca un servicio o una norma (ISO 27001, ENS, phishing…)" autocomplete="off">
+  </div>
   {% for s in services %}
-  <article class="service reveal" id="{{ s.slug }}">
+  <article class="service reveal" id="{{ s.slug }}" data-buscar="{{ (s.nombre ~ ' ' ~ s.ref ~ ' ' ~ s.resumen ~ ' ' ~ s.para_quien)|lower }}">
     <header>
       {{ icon(s.slug, 48) }}
       <h2>{{ s.nombre }}</h2>
@@ -29,6 +33,7 @@
     </div>
   </article>
   {% endfor %}
+  <p class="svc-empty" id="svc-empty">No hay ningún servicio que coincida con tu búsqueda. Prueba con otra palabra o <a href="{{ url_for('main.contacto') }}">escríbenos</a>.</p>
   <p class="note">Precios orientativos sin IVA. El precio final depende del alcance y se fija en una propuesta por escrito tras el diagnóstico inicial. <a href="{{ url_for('main.tarifas') }}">Calcula un presupuesto orientativo</a>.</p>
 </section>
 <section class="cta">

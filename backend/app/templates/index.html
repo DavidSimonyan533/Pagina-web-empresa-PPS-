@@ -139,6 +139,25 @@
   </div>
 </section>
 
+<section class="section radar-section">
+  <div class="wrap radar-grid">
+    <div class="radar-copy">
+      <p class="kicker reveal">Detección continua</p>
+      <h2 class="reveal">La seguridad no es una foto, es una película.</h2>
+      <p class="reveal">Un informe solo vale para el día que se firma. Por eso, más allá de la auditoría puntual, vigilamos de forma continua: revisamos los controles, seguimos los nuevos riesgos y comprobamos que lo que estaba bien sigue estándolo.</p>
+      <ul class="stats-count reveal">
+        <li><span class="count" data-to="5">0</span><span class="count-label">marcos normativos</span></li>
+        <li><span class="count" data-to="10">0</span><span class="count-label">servicios</span></li>
+        <li><span class="count" data-to="48" data-suffix="&#8239;h">0</span><span class="count-label">tiempo de respuesta</span></li>
+      </ul>
+    </div>
+    <figure class="radar-figure reveal" aria-label="Ilustración de un radar de vigilancia que detecta incidencias">
+      <canvas id="radar-canvas" width="440" height="440" aria-hidden="true"></canvas>
+      <figcaption>Representación ilustrativa de la monitorización continua.</figcaption>
+    </figure>
+  </div>
+</section>
+
 <section class="section">
   <div class="wrap why-grid">
     <div>
@@ -195,4 +214,5 @@
 </section>
 <script src="{{ url_for('static', filename='js/hero.js') }}" defer></script>
 <script src="{{ url_for('static', filename='js/diagnostico.js') }}" defer></script>
+<script src="{{ url_for('static', filename='js/radar.js') }}" defer></script>
 {% endblock %}

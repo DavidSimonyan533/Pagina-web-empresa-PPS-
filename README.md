@@ -65,6 +65,16 @@ python -c "import secrets; print(secrets.token_hex(32))"
 
 ## Diseño y experiencia
 
+- **Sección de radar de vigilancia** en la portada (`static/js/radar.js`): un barrido animado en canvas que ilumina incidencias, con cifras que cuentan hacia arriba al aparecer.
+- **Buscador de servicios** que filtra la lista al escribir (ignora mayúsculas y tildes).
+- **Tiempo de lectura** estimado en el blog.
+- **Cabeceras animadas (aurora)** en todas las páginas interiores: degradados en movimiento y una rejilla de puntos, en CSS puro.
+- **Barra de progreso de scroll**, botón de **volver arriba** y animación de entrada en cada página.
+- **Foco de luz que sigue al cursor** en las tarjetas (`static/js/effects.js`) y **botones magnéticos**.
+- **Medidor de fuerza de la contraseña** en el registro, en tiempo real.
+- **Barra de progreso de lectura** en los artículos del blog.
+- **Página de error 404** con número animado.
+- **Banner de cookies conforme a la AEPD** (`static/js/cookies.js`): aceptar todas, rechazar (igual de visible) o configurar por categorías, con panel de preferencias reabrible desde el pie. Nada opcional se activa sin consentimiento y la elección se guarda en el navegador. La web no usa cookies de terceros reales.
 - **Portada con fondo WebGL propio** (`static/js/hero.js`): red de nodos animada que reacciona al ratón. Se pausa cuando no está a la vista y, si el usuario prefiere movimiento reducido, se dibuja estática. Sin vídeos ni recursos externos.
 - **Autodiagnóstico** en la portada (`static/js/diagnostico.js`): recomienda servicios según las respuestas. No envía datos: se calcula en el navegador.
 - **Tipografías Inter y Lora alojadas en la propia web** (`static/fonts/`, licencia SIL OFL 1.1), sin Google Fonts.

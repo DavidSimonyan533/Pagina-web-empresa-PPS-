@@ -1,8 +1,9 @@
 {% extends "base.html" %}
 {% block title %}{{ post.titulo }} · Davem Cyber Consulting{% endblock %}
 {% block content %}
+{% set minutos = (post.cuerpo|join(' ')|wordcount // 200) + 1 %}
 <article class="wrap prose article">
-  <p class="meta"><time datetime="{{ post.fecha }}">{{ post.fecha }}</time></p>
+  <p class="meta"><time datetime="{{ post.fecha }}">{{ post.fecha }}</time> · <span class="read-time"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2" stroke-linecap="round" stroke-linejoin="round"/></svg>{{ minutos }} min de lectura</span></p>
   <h1>{{ post.titulo }}</h1>
   {% for parrafo in post.cuerpo %}<p>{{ parrafo }}</p>{% endfor %}
   <p><a class="textlink" href="{{ url_for('main.blog') }}">Volver al blog</a></p>

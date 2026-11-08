@@ -3,10 +3,10 @@
 {% block content %}
 <section class="page-head">
   <div class="wrap">
-    <p class="ref">Error {{ codigo }}</p>
+    <p class="err-code" aria-label="Error {{ codigo }}">{% for d in codigo|string %}<span>{{ d }}</span>{% endfor %}</p>
     <h1>{{ titulo }}</h1>
     <p class="lead">{{ texto }}</p>
-    <p><a class="btn" href="{{ url_for('main.index') }}">Volver al inicio</a></p>
+    <p><a class="btn btn-lg" href="{{ url_for('main.index') }}">Volver al inicio</a></p>
   </div>
 </section>
 {% endblock %}

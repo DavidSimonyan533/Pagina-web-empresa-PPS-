@@ -10,8 +10,9 @@
 <section class="wrap">
   <ul class="post-list">
     {% for p in posts %}
+    {% set minutos = (p.cuerpo|join(' ')|wordcount // 200) + 1 %}
     <li>
-      <p class="meta"><time datetime="{{ p.fecha }}">{{ p.fecha }}</time></p>
+      <p class="meta"><time datetime="{{ p.fecha }}">{{ p.fecha }}</time> · <span class="read-time"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2" stroke-linecap="round" stroke-linejoin="round"/></svg>{{ minutos }} min de lectura</span></p>
       <h2><a href="{{ url_for('main.blog_post', slug=p.slug) }}">{{ p.titulo }}</a></h2>
       <p>{{ p.resumen }}</p>
     </li>

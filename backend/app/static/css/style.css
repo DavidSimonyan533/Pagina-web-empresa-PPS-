@@ -556,3 +556,198 @@ h1, h2, h3 { font-weight: 650; letter-spacing: -0.015em; }
 .hero-report { background: #fff; }
 
 @media (max-width: 560px) { .svc-grid { grid-template-columns: 1fr 1fr; gap: .7rem; } .svc-card { padding: .9rem; } .svc-card .ref { display: none; } }
+
+/* =====================================================================
+   Versión 5: cabeceras animadas, foco de luz, barra de progreso,
+   cookies, medidor de contraseña y más microinteracciones.
+   ===================================================================== */
+
+/* ---- Entrada suave de cada página ---- */
+@media (prefers-reduced-motion: no-preference) {
+  .page-enter { animation: page-in .5s var(--ease) both; }
+  @keyframes page-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+}
+
+/* ---- Barra de progreso de scroll ---- */
+.scroll-progress {
+  position: fixed; top: 0; left: 0; right: 0; height: 3px; z-index: 60;
+  background: linear-gradient(90deg, var(--signal), var(--ok));
+  transform: scaleX(0); transform-origin: left; will-change: transform;
+}
+@media (prefers-reduced-motion: no-preference) { .scroll-progress { transition: transform .1s linear; } }
+
+/* ---- Botón volver arriba ---- */
+.to-top {
+  position: fixed; right: 1.2rem; bottom: 1.2rem; z-index: 55;
+  width: 2.9rem; height: 2.9rem; border-radius: 50%; cursor: pointer;
+  background: var(--ink); color: #fff; border: 2px solid var(--signal);
+  display: grid; place-items: center; opacity: 0; transform: translateY(14px) scale(.8);
+  pointer-events: none; transition: opacity .3s var(--ease), transform .3s var(--ease), background-color .2s;
+  box-shadow: 0 10px 24px -10px rgba(13, 23, 48, .6);
+}
+.to-top.show { opacity: 1; transform: none; pointer-events: auto; }
+.to-top:hover { background: var(--signal-dark); }
+
+/* ---- Cabeceras de página animadas (aurora) ---- */
+.page-head {
+  position: relative; overflow: hidden; isolation: isolate; color: #fff;
+  background: linear-gradient(180deg, var(--ink-deep), var(--ink));
+  padding-block: clamp(2.6rem, 6vw, 4rem) clamp(2rem, 4vw, 2.6rem); margin-bottom: 2rem;
+}
+.page-head::before {
+  content: ""; position: absolute; inset: -30%; z-index: -1; pointer-events: none;
+  background:
+    radial-gradient(42% 42% at 18% 28%, rgba(43, 74, 122, .75), transparent 60%),
+    radial-gradient(38% 38% at 82% 22%, rgba(232, 163, 23, .22), transparent 60%),
+    radial-gradient(45% 45% at 70% 90%, rgba(43, 74, 122, .6), transparent 60%);
+  filter: blur(6px);
+}
+.page-head::after {
+  content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none; opacity: .5;
+  background-image: radial-gradient(rgba(255, 255, 255, .22) 1px, transparent 1.4px);
+  background-size: 26px 26px; mask-image: linear-gradient(180deg, #000, transparent);
+  -webkit-mask-image: linear-gradient(180deg, #000, transparent);
+}
+@media (prefers-reduced-motion: no-preference) {
+  .page-head::before { animation: aurora 16s ease-in-out infinite alternate; }
+  @keyframes aurora {
+    0% { transform: translate3d(-4%, -2%, 0) scale(1.05); }
+    50% { transform: translate3d(3%, 2%, 0) scale(1.12); }
+    100% { transform: translate3d(5%, -3%, 0) scale(1.06); }
+  }
+}
+.page-head h1 { color: #fff; }
+.page-head .lead { color: #cdd6e4; }
+.page-head .ref { color: var(--signal); }
+.page-head .textlink, .page-head a { color: #fff; }
+
+/* El bloque de página ya trae su propio margen; evita doble separación */
+.page-head + .wrap, .page-head + section { margin-top: 0; }
+
+/* ---- Foco de luz que sigue al cursor ---- */
+.spot { position: relative; }
+.spot::before {
+  content: ""; position: absolute; inset: 0; border-radius: inherit; z-index: 0;
+  opacity: 0; transition: opacity .3s ease; pointer-events: none;
+  background: radial-gradient(180px circle at var(--mx, 50%) var(--my, 0), rgba(232, 163, 23, .16), transparent 70%);
+}
+.spot:hover::before { opacity: 1; }
+.spot > * { position: relative; z-index: 1; }
+
+/* ---- Progreso de lectura del blog ---- */
+.read-progress { position: sticky; top: 0; z-index: 40; height: 4px; background: rgba(199, 208, 221, .4); }
+.read-progress span { display: block; height: 100%; background: linear-gradient(90deg, var(--signal), var(--ok)); transform: scaleX(0); transform-origin: left; }
+
+/* ---- Medidor de fuerza de la contraseña ---- */
+.pw-meter { margin-top: .5rem; display: flex; align-items: center; gap: .7rem; }
+.pw-track { flex: 1; height: 6px; background: #e6ebf2; border-radius: 99px; overflow: hidden; }
+.pw-fill { display: block; height: 100%; width: 0; border-radius: 99px; transition: width .3s var(--ease), background-color .3s; }
+.pw-text { font-size: .85rem; font-weight: 600; min-width: 6rem; text-align: right; }
+
+/* ---- Banner de cookies ---- */
+.cookie-banner {
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 70;
+  background: var(--surface); border-top: 3px solid var(--signal);
+  box-shadow: 0 -12px 40px -20px rgba(13, 23, 48, .6);
+  animation: cookie-up .5s var(--ease) both;
+}
+@keyframes cookie-up { from { transform: translateY(100%); } to { transform: none; } }
+.cookie-banner.hide { animation: cookie-down .4s var(--ease) both; }
+@keyframes cookie-down { to { transform: translateY(110%); } }
+.cookie-inner { width: min(1080px, 100% - 2.5rem); margin-inline: auto; padding: 1.1rem 0; display: flex; align-items: center; gap: 1.2rem 2rem; flex-wrap: wrap; }
+.cookie-text { flex: 1; min-width: 260px; }
+.cookie-text h2 { font-size: 1.15rem; margin-bottom: .2rem; }
+.cookie-text p { margin: 0; font-size: .93rem; color: var(--ink-soft); max-width: 70ch; }
+.cookie-actions { display: flex; align-items: center; gap: .7rem; flex-wrap: wrap; }
+
+/* ---- Panel de preferencias de cookies ---- */
+.cookie-modal { position: fixed; inset: 0; z-index: 80; background: rgba(13, 23, 48, .55); backdrop-filter: blur(3px); display: grid; place-items: center; padding: 1.2rem; animation: fade .25s ease both; }
+@keyframes fade { from { opacity: 0; } to { opacity: 1; } }
+.cookie-dialog { background: var(--surface); border-radius: 12px; max-width: 560px; width: 100%; max-height: 90vh; overflow-y: auto; padding: 1.6rem; box-shadow: 0 30px 70px -25px rgba(0, 0, 0, .6); animation: pop-in .3s var(--ease) both; }
+@keyframes pop-in { from { opacity: 0; transform: translateY(16px) scale(.97); } to { opacity: 1; transform: none; } }
+.cookie-dialog > p { color: var(--ink-soft); }
+.cookie-cat { border: 1px solid var(--rule); border-radius: 8px; padding: 1rem 1.1rem; margin-bottom: .9rem; }
+.cookie-cat-head { display: flex; justify-content: space-between; align-items: center; gap: 1rem; margin-bottom: .4rem; }
+.cookie-cat p { margin: 0; font-size: .9rem; color: var(--ink-soft); }
+.cookie-always { font-size: .8rem; font-weight: 700; color: var(--ok); }
+.cookie-sw { flex-shrink: 0; }
+.cookie-sw input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+.cookie-dialog-actions { display: flex; gap: .7rem; flex-wrap: wrap; margin-top: 1.2rem; }
+body.no-scroll { overflow: hidden; }
+
+/* ---- Página de error con número animado ---- */
+.err-code { font-family: var(--mono); font-size: clamp(3.5rem, 12vw, 7rem); font-weight: 700; line-height: 1; letter-spacing: .1em; color: var(--signal); margin: 0 0 .3rem; }
+@media (prefers-reduced-motion: no-preference) {
+  .err-code span { display: inline-block; animation: glitch 2.6s steps(2, end) infinite; }
+  .err-code span:nth-child(2) { animation-delay: .2s; }
+  .err-code span:nth-child(3) { animation-delay: .4s; }
+  @keyframes glitch { 0%, 92%, 100% { transform: none; text-shadow: none; } 94% { transform: translate(-2px, 1px); text-shadow: 2px 0 var(--minor), -2px 0 var(--focus); } 96% { transform: translate(2px, -1px); text-shadow: -2px 0 var(--minor), 2px 0 var(--focus); } }
+}
+
+/* ---- Cabecera: el enlace del tema ocupa su sitio en móvil ---- */
+@media (max-width: 860px) {
+  .cookie-inner { padding: 1rem 0; }
+  .cookie-actions { width: 100%; }
+  .cookie-actions .btn { flex: 1; text-align: center; }
+}
+
+/* Interruptor del panel de cookies (mismo aspecto que el autodiagnóstico) */
+.cookie-sw { display: inline-flex; cursor: pointer; }
+.cookie-sw input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+.cookie-sw input:checked + .diag-switch { background: var(--ok); }
+.cookie-sw input:checked + .diag-switch::after { transform: translateX(1.1rem); }
+.cookie-sw input:focus-visible + .diag-switch { outline: 3px solid var(--focus); outline-offset: 2px; }
+
+/* =====================================================================
+   Versión 6: sección de radar, conteo animado, buscador de servicios,
+   tiempo de lectura y apertura suave de FAQ.
+   ===================================================================== */
+
+/* ---- Sección del radar de vigilancia ---- */
+.radar-section {
+  position: relative; overflow: hidden; isolation: isolate; color: #fff;
+  background: radial-gradient(700px 400px at 80% 40%, rgba(43, 74, 122, .5), transparent 60%), linear-gradient(180deg, var(--ink), var(--ink-deep));
+}
+.radar-section h2 { color: #fff; max-width: 18ch; }
+.radar-section p { color: #cdd6e4; }
+.radar-grid { display: grid; grid-template-columns: 1.1fr .9fr; gap: 2rem 3.5rem; align-items: center; }
+.radar-figure { margin: 0; justify-self: center; text-align: center; }
+#radar-canvas { width: 100%; max-width: 440px; height: auto; filter: drop-shadow(0 0 40px rgba(232, 163, 23, .15)); }
+.radar-figure figcaption { font-size: .82rem; color: #8fa0bd; margin-top: .6rem; }
+
+/* ---- Estadísticas con conteo ---- */
+.stats-count { list-style: none; padding: 0; margin: 2rem 0 0; display: flex; flex-wrap: wrap; gap: 1.5rem 2.5rem; }
+.stats-count li { display: flex; flex-direction: column; }
+.count { font-family: var(--serif); font-weight: 700; font-size: clamp(2.2rem, 4vw, 3rem); line-height: 1; color: var(--signal); font-variant-numeric: tabular-nums; }
+.count-label { font-size: .9rem; color: #aebad0; margin-top: .3rem; }
+
+/* ---- Buscador de servicios ---- */
+.svc-search { position: relative; max-width: 420px; margin: 0 0 1.8rem; }
+.svc-search input { width: 100%; font: inherit; padding: .7rem 1rem .7rem 2.6rem; border: 1.5px solid var(--ink-soft); border-radius: 8px; background: var(--surface); color: var(--ink); }
+.svc-search::before { content: ""; position: absolute; left: .9rem; top: 50%; width: 1rem; height: 1rem; transform: translateY(-50%); border: 2px solid var(--ink-soft); border-radius: 50%; }
+.svc-search::after { content: ""; position: absolute; left: 1.75rem; top: 56%; width: .5rem; height: 2px; background: var(--ink-soft); transform: rotate(45deg); }
+.svc-empty { display: none; background: var(--surface); border: 1px dashed var(--ink-soft); border-radius: 8px; padding: 1.2rem; color: var(--ink-soft); }
+.svc-empty.show { display: block; }
+.service.oculto { display: none; }
+@media (prefers-reduced-motion: no-preference) {
+  .service { transition: opacity .3s ease; }
+}
+
+/* ---- Insignia de tiempo de lectura ---- */
+.read-time { display: inline-flex; align-items: center; gap: .4rem; font-size: .85rem; font-weight: 600; color: var(--signal-dark); }
+.read-time svg { width: .95rem; height: .95rem; }
+.post-card .read-time, .post-list .read-time { margin-top: .2rem; }
+
+/* ---- FAQ: apertura suave ---- */
+@media (prefers-reduced-motion: no-preference) {
+  .faq-item[open] p { animation: faq-open .35s var(--ease) both; }
+  @keyframes faq-open { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: none; } }
+  .faq-item summary::after { transition: transform .25s var(--ease); }
+  .faq-item[open] summary::after { transform: rotate(180deg); }
+}
+
+@media (max-width: 860px) {
+  .radar-grid { grid-template-columns: 1fr; }
+  .radar-figure { order: -1; max-width: 340px; }
+  .radar-section h2 { max-width: none; }
+}
