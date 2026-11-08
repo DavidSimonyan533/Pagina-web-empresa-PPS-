@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% from "_macros.html" import field, check %}
+{% block title %}Crear cuenta · Davem Cyber Consulting{% endblock %}
+{% block content %}
+<section class="page-head">
+  <div class="wrap">
+    <h1>Crear cuenta</h1>
+    <p class="lead">Con tu cuenta puedes solicitar auditorías y seguir su estado.</p>
+  </div>
+</section>
+<section class="wrap form-wrap">
+  <form method="post" novalidate>
+    {{ form.hidden_tag() }}
+    {{ field(form.nombre, autocomplete="name") }}
+    {{ field(form.email, autocomplete="email", type="email") }}
+    {{ field(form.empresa, autocomplete="organization") }}
+    {{ field(form.password, hint="Mínimo 12 caracteres. Una frase larga funciona mejor que una palabra con símbolos.", autocomplete="new-password") }}
+    {{ field(form.confirmar, autocomplete="new-password") }}
+    {{ check(form.acepto) }}
+    <p class="hint">Consulta la <a href="{{ url_for('main.privacidad') }}">política de privacidad</a>.</p>
+    <button class="btn" type="submit">Crear cuenta</button>
+  </form>
+  <p class="alt">¿Ya tienes cuenta? <a href="{{ url_for('auth.login') }}">Accede</a></p>
+</section>
+{% endblock %}

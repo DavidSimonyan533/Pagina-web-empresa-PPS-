@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block title %}Servicios · Davem Cyber Consulting{% endblock %}
+{% block content %}
+<section class="page-head">
+  <div class="wrap">
+    <h1>Servicios</h1>
+    <p class="lead">Cada servicio indica a quién va dirigido y qué recibes al terminar.</p>
+  </div>
+</section>
+<section class="wrap service-list">
+  {% for s in services %}
+  <article class="service" id="{{ s.slug }}">
+    <header>
+      <h2>{{ s.nombre }}</h2>
+      <p class="ref">{{ s.ref }}</p>
+    </header>
+    <div>
+      <p>{{ s.resumen }}</p>
+      <dl>
+        <dt>Para quién</dt>
+        <dd>{{ s.para_quien }}</dd>
+        <dt>Qué recibes</dt>
+        <dd>{{ s.entregable }}</dd>
+      </dl>
+    </div>
+  </article>
+  {% endfor %}
+</section>
+<section class="cta">
+  <div class="wrap cta-inner">
+    <h2>¿No sabes qué norma te afecta?</h2>
+    <a class="btn" href="{{ url_for('main.contacto') }}">Escríbenos</a>
+  </div>
+</section>
+{% endblock %}
