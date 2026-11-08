@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}Aviso legal · Davem Cyber Consulting{% endblock %}
+{% block content %}
+<section class="page-head">
+  <div class="wrap">
+    <h1>Aviso legal</h1>
+    <p class="lead">Información exigida por la Ley 34/2002 de servicios de la sociedad de la información (LSSI-CE).</p>
+  </div>
+</section>
+<section class="wrap prose">
+  <p class="note">Proyecto académico: los datos identificativos de esta página son ficticios.</p>
+  <h2>Titular del sitio web</h2>
+  <ul>
+    <li><strong>Denominación:</strong> Davem Cyber Consulting (empresa ficticia)</li>
+    <li><strong>Responsable:</strong> David Simonyan Demchuk</li>
+    <li><strong>NIF:</strong> pendiente de constitución</li>
+    <li><strong>Domicilio:</strong> Madrid, España</li>
+    <li><strong>Contacto:</strong> a través del <a href="{{ url_for('main.contacto') }}">formulario de contacto</a></li>
+  </ul>
+  <h2>Objeto</h2>
+  <p>Este sitio web informa sobre los servicios de consultoría de ciberseguridad y cumplimiento normativo de Davem Cyber Consulting y permite a los usuarios registrados solicitar servicios.</p>
+  <h2>Condiciones de uso</h2>
+  <p>El usuario se compromete a hacer un uso adecuado de los contenidos y a no emplearlos para actividades ilícitas. Está prohibido intentar acceder a áreas restringidas del sitio sin autorización. Toda prueba de seguridad sobre este sitio requiere autorización previa por escrito.</p>
+  <h2>Propiedad intelectual</h2>
+  <p>Los textos, ilustraciones, logotipo y diseño de este sitio son propiedad del titular, salvo que se indique lo contrario. Las normas citadas (ISO, ENS, NIS2, RGPD) pertenecen a sus respectivos organismos emisores.</p>
+  <h2>Responsabilidad</h2>
+  <p>Los contenidos tienen carácter informativo y no sustituyen el asesoramiento profesional sobre un caso concreto. Los precios publicados son orientativos.</p>
+  <h2>Legislación aplicable</h2>
+  <p>Este aviso legal se rige por la legislación española.</p>
+</section>
+{% endblock %}

@@ -7,7 +7,8 @@
     <p class="lead">Una consultoría pequeña y rigurosa, centrada en que el cumplimiento normativo sirva para proteger de verdad.</p>
   </div>
 </section>
-<section class="wrap prose">
+<section class="wrap about-grid">
+<div class="prose">
   <h2>Qué hacemos</h2>
   <p>Ayudamos a organizaciones a cumplir ISO/IEC 27001, el Esquema Nacional de Seguridad y NIS2, y a comprobar con auditorías internas que lo escrito se cumple en la práctica.</p>
   <h2>Cómo lo entendemos</h2>
@@ -23,6 +24,18 @@
   <p><strong>{{ c.titulo }}.</strong> {{ c.texto }}</p>
   {% endfor %}
   <h2>Quién está detrás</h2>
-  <p>Davem Cyber Consulting es un proyecto fundado por David Simonyan Demchuk, en España.</p>
+  <div class="founder">
+    <span class="founder-avatar" aria-hidden="true">{{ fundador.iniciales }}</span>
+    <div>
+      <p class="founder-name">{{ fundador.nombre }}</p>
+      <p class="founder-role">{{ fundador.cargo }}</p>
+      <p>{{ fundador.texto }}</p>
+      <p class="founder-goal">{{ fundador.objetivo }}</p>
+    </div>
+  </div>
+</div>
+<figure class="about-art">
+  <img src="{{ url_for('static', filename='img/equipo.svg') }}" width="520" height="360" alt="">
+</figure>
 </section>
 {% endblock %}

@@ -1,0 +1,5 @@
+<nav class="admin-tabs" aria-label="Administración">
+  <a href="{{ url_for('admin.panel') }}"{% if seccion == 'panel' %} aria-current="page"{% endif %}>Solicitudes y usuarios</a>
+  <a href="{{ url_for('admin.seguridad') }}"{% if seccion == 'seguridad' %} aria-current="page"{% endif %}>Registro de seguridad</a>
+  <a href="{{ url_for('admin.doble_factor') }}"{% if seccion == '2fa' %} aria-current="page"{% endif %}>Doble factor</a>
+</nav>

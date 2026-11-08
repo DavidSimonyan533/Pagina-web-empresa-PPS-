@@ -3,6 +3,9 @@
 SERVICES = [
     {
         "slug": "auditoria-interna",
+        "precio_min": 1500,
+        "precio_max": 4000,
+        "unidad": "",
         "nombre": "Auditoría interna de seguridad",
         "ref": "ISO 19011",
         "resumen": "Revisamos con criterio independiente cómo se aplican de verdad tus políticas y controles, antes de que lo haga una auditoría externa o un regulador.",
@@ -11,6 +14,9 @@ SERVICES = [
     },
     {
         "slug": "iso-27001",
+        "precio_min": 6500,
+        "precio_max": 18000,
+        "unidad": "",
         "nombre": "Implantación y auditoría ISO/IEC 27001",
         "ref": "ISO/IEC 27001:2022",
         "resumen": "Te acompañamos desde el alcance hasta la certificación: análisis de riesgos, declaración de aplicabilidad, políticas y preparación de la auditoría externa.",
@@ -19,6 +25,9 @@ SERVICES = [
     },
     {
         "slug": "ens",
+        "precio_min": 4500,
+        "precio_max": 14000,
+        "unidad": "",
         "nombre": "Adecuación al Esquema Nacional de Seguridad",
         "ref": "Real Decreto 311/2022",
         "resumen": "Categorizamos tus sistemas, aplicamos las medidas del Anexo II que corresponden y preparamos la auditoría de conformidad.",
@@ -27,6 +36,9 @@ SERVICES = [
     },
     {
         "slug": "nis2",
+        "precio_min": 3500,
+        "precio_max": 9000,
+        "unidad": "",
         "nombre": "Adecuación a NIS y NIS2",
         "ref": "Directiva (UE) 2022/2555",
         "resumen": "Analizamos si te afecta la normativa, medimos la distancia frente a las medidas de gestión de riesgos exigidas y definimos cómo notificar incidentes.",
@@ -35,6 +47,9 @@ SERVICES = [
     },
     {
         "slug": "iso-42001",
+        "precio_min": 5000,
+        "precio_max": 15000,
+        "unidad": "",
         "nombre": "Gestión de la inteligencia artificial",
         "ref": "ISO/IEC 42001",
         "resumen": "Ordenamos cómo tu organización desarrolla o usa sistemas de IA: inventario, riesgos, responsabilidades y controles.",
@@ -43,6 +58,9 @@ SERVICES = [
     },
     {
         "slug": "rgpd",
+        "precio_min": 1200,
+        "precio_max": 4500,
+        "unidad": "",
         "nombre": "Protección de datos personales",
         "ref": "RGPD y LOPDGDD",
         "resumen": "Revisamos el tratamiento de datos personales y dejamos al día la documentación que exige la normativa.",
@@ -51,6 +69,9 @@ SERVICES = [
     },
     {
         "slug": "pentesting",
+        "precio_min": 2500,
+        "precio_max": 9000,
+        "unidad": "",
         "nombre": "Análisis de vulnerabilidades y pruebas de intrusión",
         "ref": "Alcance y autorización por escrito",
         "resumen": "Probamos tus sistemas como lo haría un atacante, pero con un alcance pactado y autorización escrita previa.",
@@ -59,6 +80,9 @@ SERVICES = [
     },
     {
         "slug": "riesgos-continuidad",
+        "precio_min": 3000,
+        "precio_max": 10000,
+        "unidad": "",
         "nombre": "Análisis de riesgos y continuidad de negocio",
         "ref": "MAGERIT e ISO 22301",
         "resumen": "Identificamos qué activos importan, qué les puede pasar y cómo seguir funcionando si ocurre.",
@@ -67,6 +91,9 @@ SERVICES = [
     },
     {
         "slug": "formacion-phishing",
+        "precio_min": 900,
+        "precio_max": 3500,
+        "unidad": "",
         "nombre": "Formación y simulacros de phishing",
         "ref": "Concienciación",
         "resumen": "Sesiones cortas y prácticas para el personal, y campañas de phishing simulado con permiso de la dirección.",
@@ -75,6 +102,9 @@ SERVICES = [
     },
     {
         "slug": "ciso-externo",
+        "precio_min": 790,
+        "precio_max": 2400,
+        "unidad": "/mes",
         "nombre": "Responsable de seguridad externo",
         "ref": "CISO as a service",
         "resumen": "Asumimos la función de responsable de seguridad a tiempo parcial: seguimiento del plan, comités e incidentes.",
@@ -84,10 +114,10 @@ SERVICES = [
 ]
 
 PROCESS = [
-    ("Diagnóstico inicial", "Una reunión para entender tu actividad, tus sistemas y qué normativa te afecta."),
-    ("Análisis de brechas", "Comparamos lo que haces hoy con lo que exige la norma y listamos las diferencias."),
-    ("Plan de acción", "Ordenamos las correcciones por riesgo y esfuerzo, con responsables y plazos realistas."),
-    ("Auditoría y seguimiento", "Verificamos que los cambios funcionan y repetimos la revisión cuando haga falta."),
+    ("Diagnóstico inicial", "Una reunión para entender tu actividad, tus sistemas y qué normativa te afecta.", "Semana 1"),
+    ("Análisis de brechas", "Comparamos lo que haces hoy con lo que exige la norma y listamos las diferencias.", "Semanas 2 a 4"),
+    ("Plan de acción", "Ordenamos las correcciones por riesgo y esfuerzo, con responsables y plazos realistas.", "Semana 5"),
+    ("Auditoría y seguimiento", "Verificamos que los cambios funcionan y repetimos la revisión cuando haga falta.", "Continuo"),
 ]
 
 POSTS = [
@@ -159,3 +189,122 @@ VALORES = [
     ("Autorización previa", "Ninguna prueba técnica se hace sin autorización escrita de la dirección."),
     ("Confidencialidad", "La información de tu organización solo la ve el equipo que trabaja en tu caso."),
 ]
+
+
+PACKS = [
+    {
+        "nombre": "Diagnóstico",
+        "precio": 1200,
+        "unidad": "",
+        "para": "Saber dónde estás frente a una norma antes de invertir.",
+        "incluye": [
+            "Reunión inicial y revisión documental",
+            "Análisis de brechas de una norma (ISO 27001, ENS o NIS2)",
+            "Informe con hallazgos priorizados",
+            "Presentación de resultados a la dirección",
+        ],
+        "destacado": False,
+    },
+    {
+        "nombre": "Implantación",
+        "precio": 6500,
+        "unidad": "",
+        "para": "Llegar a la auditoría de certificación con todo preparado.",
+        "incluye": [
+            "Todo lo del diagnóstico",
+            "Análisis de riesgos y declaración de aplicabilidad",
+            "Políticas y procedimientos adaptados",
+            "Formación al personal",
+            "Auditoría interna previa a la certificación",
+        ],
+        "destacado": True,
+    },
+    {
+        "nombre": "Acompañamiento",
+        "precio": 790,
+        "unidad": "/mes",
+        "para": "Mantener el cumplimiento año tras año, sin perfil interno.",
+        "incluye": [
+            "Responsable de seguridad externo a tiempo parcial",
+            "Revisión trimestral de indicadores y riesgos",
+            "Auditoría interna anual",
+            "Apoyo ante incidentes en horario laboral",
+        ],
+        "destacado": False,
+    },
+]
+
+# Factores de la calculadora orientativa
+FACTOR_TAMANO = [
+    ("1-9", "1 a 9 personas", 0.75),
+    ("10-49", "10 a 49 personas", 1.0),
+    ("50-249", "50 a 249 personas", 1.6),
+    ("250+", "250 personas o más", 2.6),
+]
+FACTOR_PLAZO = [
+    ("normal", "Plazo habitual", 1.0),
+    ("urgente", "Urgente (menos de un mes)", 1.2),
+]
+
+FAQ = [
+    ("¿Necesito ISO 27001 o el ENS?",
+     "Si trabajas para el sector público español, el ENS suele ser obligatorio. ISO 27001 es voluntaria y tiene reconocimiento internacional. Muchas organizaciones necesitan ambas, y gran parte del trabajo sirve para las dos."),
+    ("¿Me afecta NIS2?",
+     "Depende de tu sector y tamaño. Afecta a entidades esenciales e importantes (energía, transporte, salud, infraestructuras digitales, fabricación y otros) y, de forma indirecta, a sus proveedores. Lo comprobamos en el diagnóstico."),
+    ("¿Cuánto tarda una implantación de ISO 27001?",
+     "En una pyme, entre seis y doce meses hasta la certificación. El plazo depende sobre todo del punto de partida y de la disponibilidad del equipo interno."),
+    ("¿Vosotros emitís el certificado?",
+     "No. El certificado lo emite una entidad de certificación acreditada e independiente. Nosotros te preparamos y te acompañamos durante la auditoría, lo que garantiza la imparcialidad del proceso."),
+    ("¿Las pruebas de intrusión pueden afectar a mis sistemas?",
+     "Se planifican para minimizar el impacto: alcance y horario pactados, autorización escrita y contacto directo durante las pruebas. Las pruebas más intrusivas se hacen fuera del horario de servicio o en un entorno de preproducción."),
+    ("¿Los precios incluyen IVA?",
+     "No. Los precios publicados son orientativos y sin IVA. El precio final se fija en una propuesta por escrito tras el diagnóstico inicial."),
+    ("¿Qué pasa con la información que os damos?",
+     "Firmamos un acuerdo de confidencialidad antes de empezar. Solo el equipo asignado accede a tu información, y la devolvemos o destruimos al terminar el proyecto."),
+]
+
+
+def euros(valor):
+    return f"{valor:,.0f}".replace(",", ".") + " €"
+
+
+DIAGNOSTICO = [
+    ("ens", "¿Trabajas para la administración pública o le prestas servicios?"),
+    ("nis2", "¿Tu empresa es de energía, transporte, salud, agua, alimentación, fabricación o infraestructuras digitales?"),
+    ("iso-27001", "¿Tus clientes o licitaciones te piden demostrar cómo gestionas la seguridad?"),
+    ("rgpd", "¿Tratas datos personales de clientes, empleados o pacientes?"),
+    ("iso-42001", "¿Usas o desarrollas inteligencia artificial en tus servicios?"),
+    ("pentesting", "¿Tienes aplicaciones web o servicios accesibles desde internet?"),
+]
+
+ESCENARIOS = [
+    {
+        "titulo": "Proveedor tecnológico de un ayuntamiento",
+        "servicio": "ens",
+        "situacion": "Una empresa de 40 personas que mantiene la sede electrónica de un ayuntamiento necesita acreditar la conformidad con el ENS para renovar el contrato.",
+        "enfoque": "Categorización del sistema, adecuación de las medidas del Anexo II y auditoría interna previa.",
+        "plazo": "6 a 8 meses",
+    },
+    {
+        "titulo": "Fabricante industrial afectado por NIS2",
+        "servicio": "nis2",
+        "situacion": "Un fabricante de 120 personas descubre que entra en el ámbito de NIS2 y no tiene un procedimiento para notificar incidentes.",
+        "enfoque": "Análisis de aplicabilidad, informe de brechas y procedimiento de notificación con roles definidos.",
+        "plazo": "2 a 3 meses",
+    },
+    {
+        "titulo": "Empresa SaaS que vende a grandes cuentas",
+        "servicio": "iso-27001",
+        "situacion": "Una empresa de software pierde oportunidades porque los departamentos de compras de sus clientes exigen ISO 27001.",
+        "enfoque": "Implantación del sistema de gestión, análisis de riesgos y preparación de la auditoría de certificación.",
+        "plazo": "8 a 10 meses",
+    },
+]
+
+FUNDADOR = {
+    "nombre": "David Simonyan Demchuk",
+    "iniciales": "DS",
+    "cargo": "Fundador y consultor principal",
+    "texto": "Formación en ciberseguridad y cumplimiento normativo. Dirige los proyectos de auditoría interna y adecuación a ISO 27001, ENS y NIS2.",
+    "objetivo": "Objetivo de certificación: PECB ISO/IEC 27001 Lead Implementer",
+}

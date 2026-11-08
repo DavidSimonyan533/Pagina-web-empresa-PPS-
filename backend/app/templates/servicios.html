@@ -1,18 +1,21 @@
 {% extends "base.html" %}
+{% from "_icons.html" import icon %}
 {% block title %}Servicios · Davem Cyber Consulting{% endblock %}
 {% block content %}
 <section class="page-head">
   <div class="wrap">
     <h1>Servicios</h1>
-    <p class="lead">Cada servicio indica a quién va dirigido y qué recibes al terminar.</p>
+    <p class="lead">Cada servicio indica a quién va dirigido, qué recibes al terminar y un precio orientativo.</p>
   </div>
 </section>
 <section class="wrap service-list">
   {% for s in services %}
-  <article class="service" id="{{ s.slug }}">
+  <article class="service reveal" id="{{ s.slug }}">
     <header>
+      {{ icon(s.slug, 48) }}
       <h2>{{ s.nombre }}</h2>
       <p class="ref">{{ s.ref }}</p>
+      <p class="price">Desde <strong>{{ s.precio_min|euros }}{{ s.unidad }}</strong> <span>+ IVA</span></p>
     </header>
     <div>
       <p>{{ s.resumen }}</p>
@@ -22,9 +25,11 @@
         <dt>Qué recibes</dt>
         <dd>{{ s.entregable }}</dd>
       </dl>
+      <p><a class="textlink" href="{{ url_for('cliente.solicitar') }}">Solicitar este servicio</a></p>
     </div>
   </article>
   {% endfor %}
+  <p class="note">Precios orientativos sin IVA. El precio final depende del alcance y se fija en una propuesta por escrito tras el diagnóstico inicial. <a href="{{ url_for('main.tarifas') }}">Calcula un presupuesto orientativo</a>.</p>
 </section>
 <section class="cta">
   <div class="wrap cta-inner">

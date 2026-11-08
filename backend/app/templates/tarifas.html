@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+{% block title %}Tarifas · Davem Cyber Consulting{% endblock %}
+{% block description %}Tarifas orientativas de auditoría, ISO 27001, ENS y NIS2, con calculadora de presupuesto.{% endblock %}
+{% block content %}
+<section class="page-head">
+  <div class="wrap">
+    <h1>Tarifas</h1>
+    <p class="lead">Precios claros desde el principio. Elige un punto de partida o calcula un presupuesto orientativo para tu caso.</p>
+  </div>
+</section>
+
+<section class="wrap packs">
+  {% for p in packs %}
+  <article class="pack reveal{% if p.destacado %} pack-featured{% endif %}">
+    {% if p.destacado %}<p class="pack-badge">El más elegido</p>{% endif %}
+    <h2>{{ p.nombre }}</h2>
+    <p class="pack-for">{{ p.para }}</p>
+    <p class="pack-price">{% if p.unidad %}{% else %}Desde {% endif %}<strong>{{ p.precio|euros }}</strong>{{ p.unidad }} <span>+ IVA</span></p>
+    <ul>
+      {% for i in p.incluye %}<li>{{ i }}</li>{% endfor %}
+    </ul>
+    <a class="btn{% if not p.destacado %} btn-ghost{% endif %}" href="{{ url_for('cliente.solicitar') }}">Solicitar</a>
+  </article>
+  {% endfor %}
+</section>
+
+<section class="section section-tint">
+  <div class="wrap calc-grid">
+    <div>
+      <h2>Calculadora de presupuesto</h2>
+      <p>Una estimación en segundos según el servicio, el tamaño de tu organización y el plazo. Es orientativa: el precio final lo fijamos tras el diagnóstico.</p>
+    </div>
+    <form class="calc" id="calculadora" novalidate>
+      <div class="field">
+        <label for="calc-servicio">Servicio</label>
+        <select id="calc-servicio">
+          {% for s in services %}
+          <option value="{{ s.slug }}" data-min="{{ s.precio_min }}" data-max="{{ s.precio_max }}" data-unidad="{{ s.unidad }}">{{ s.nombre }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="field">
+        <label for="calc-tamano">Tamaño de la organización</label>
+        <select id="calc-tamano">
+          {% for v, t, f in tamanos %}<option value="{{ v }}" data-factor="{{ f }}"{% if v == '10-49' %} selected{% endif %}>{{ t }}</option>{% endfor %}
+        </select>
+      </div>
+      <fieldset class="field radios">
+        <legend>Plazo</legend>
+        {% for v, t, f in plazos %}
+        <label><input type="radio" name="plazo" value="{{ v }}" data-factor="{{ f }}"{% if loop.first %} checked{% endif %}> {{ t }}</label>
+        {% endfor %}
+      </fieldset>
+      <output class="calc-result" id="calc-resultado" for="calc-servicio calc-tamano" aria-live="polite">
+        Activa JavaScript para ver la estimación, o consulta los precios "desde" en <a href="{{ url_for('main.servicios') }}">Servicios</a>.
+      </output>
+      <a class="btn" href="{{ url_for('cliente.solicitar') }}">Pedir propuesta cerrada</a>
+    </form>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <h2>Precios por servicio</h2>
+    <div class="table-scroll">
+      <table>
+        <thead><tr><th scope="col">Servicio</th><th scope="col">Rango orientativo</th></tr></thead>
+        <tbody>
+          {% for s in services %}
+          <tr><td><a href="{{ url_for('main.servicios') }}#{{ s.slug }}">{{ s.nombre }}</a></td><td>{{ s.precio_min|euros }} – {{ s.precio_max|euros }}{{ s.unidad }}</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    <p class="note">Precios sin IVA, para organizaciones de 10 a 49 personas. Empresa ficticia: precios de ejemplo para un proyecto académico.</p>
+  </div>
+</section>
+<script src="{{ url_for('static', filename='js/calculadora.js') }}" defer></script>
+{% endblock %}

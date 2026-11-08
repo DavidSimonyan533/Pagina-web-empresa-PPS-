@@ -1,6 +1,8 @@
 from flask import Blueprint, abort, flash, redirect, render_template, url_for
 
-from .content import CREDENCIALES, POSTS, PROCESS, SERVICES, VALORES, get_post
+from .content import (
+    CREDENCIALES, DIAGNOSTICO, ESCENARIOS, FACTOR_PLAZO, FUNDADOR, FACTOR_TAMANO, FAQ, PACKS, POSTS, PROCESS, SERVICES, VALORES, get_post,
+)
 from .extensions import db, limiter
 from .forms import ContactForm
 from .models import ContactMessage
@@ -17,6 +19,9 @@ def index():
         posts=POSTS[:2],
         credenciales=CREDENCIALES,
         valores=VALORES,
+        diagnostico=DIAGNOSTICO,
+        escenarios=ESCENARIOS,
+        get_service=get_service,
     )
 
 
@@ -27,7 +32,7 @@ def servicios():
 
 @bp.route("/sobre-nosotros")
 def sobre():
-    return render_template("sobre.html", valores=VALORES, credenciales=CREDENCIALES)
+    return render_template("sobre.html", valores=VALORES, credenciales=CREDENCIALES, fundador=FUNDADOR)
 
 
 @bp.route("/blog")
@@ -60,6 +65,28 @@ def contacto():
         flash("Mensaje enviado. Te responderemos lo antes posible.", "success")
         return redirect(url_for("main.contacto"))
     return render_template("contacto.html", form=form)
+
+
+@bp.route("/tarifas")
+def tarifas():
+    return render_template(
+        "tarifas.html", packs=PACKS, services=SERVICES, tamanos=FACTOR_TAMANO, plazos=FACTOR_PLAZO
+    )
+
+
+@bp.route("/preguntas-frecuentes")
+def faq():
+    return render_template("faq.html", faq=FAQ)
+
+
+@bp.route("/aviso-legal")
+def aviso_legal():
+    return render_template("aviso_legal.html")
+
+
+@bp.route("/cookies")
+def cookies():
+    return render_template("cookies.html")
 
 
 @bp.route("/privacidad")

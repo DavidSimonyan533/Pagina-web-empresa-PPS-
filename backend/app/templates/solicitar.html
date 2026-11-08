@@ -8,7 +8,7 @@
     <p class="lead">Cuéntanos tu situación. Revisaremos la solicitud y te propondremos una primera reunión.</p>
   </div>
 </section>
-<section class="wrap form-wrap">
+<section class="wrap form-wrap contact-grid">
   <form method="post" novalidate>
     {{ form.hidden_tag() }}
     {{ field(form.servicio) }}
@@ -17,5 +17,15 @@
     {{ field(form.descripcion, rows=6, hint="Qué actividad tenéis, qué sistemas usáis y qué os ha llevado a pedir la auditoría.") }}
     <button class="btn" type="submit">Enviar solicitud</button>
   </form>
+  <aside class="contact-aside">
+    <h2>Qué pasa después</h2>
+    <ol class="next-steps">
+      <li><strong>En 48 horas</strong> revisamos tu solicitud y te escribimos para proponer una reunión.</li>
+      <li><strong>Reunión de 30 minutos</strong> para entender tu situación, sin compromiso.</li>
+      <li><strong>Propuesta por escrito</strong> con alcance, plazos y precio cerrado.</li>
+    </ol>
+    <h2>Tus datos</h2>
+    <p>Usamos la información de este formulario solo para preparar la propuesta. Puedes seguir el estado de la solicitud en tu área de cliente.</p>
+  </aside>
 </section>
 {% endblock %}

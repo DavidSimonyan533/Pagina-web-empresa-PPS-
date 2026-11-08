@@ -8,7 +8,7 @@
     <p class="lead">Escríbenos y te responderemos lo antes posible.</p>
   </div>
 </section>
-<section class="wrap form-wrap">
+<section class="wrap form-wrap contact-grid">
   <form method="post" novalidate>
     {{ form.hidden_tag() }}
     {{ field(form.nombre, autocomplete="name") }}
@@ -17,5 +17,11 @@
     {{ field(form.mensaje, rows=6) }}
     <button class="btn" type="submit">Enviar mensaje</button>
   </form>
+  <aside class="contact-aside">
+    <img src="{{ url_for('static', filename='img/contacto.svg') }}" width="400" height="320" alt="">
+    <h2>Qué pasa después</h2>
+    <p>Leemos cada mensaje y respondemos en un máximo de dos días laborables. Si ya sabes qué servicio necesitas, <a href="{{ url_for('cliente.solicitar') }}">solicítalo directamente</a> desde tu área de cliente.</p>
+    <p>Para dudas sobre precios, consulta las <a href="{{ url_for('main.tarifas') }}">tarifas</a> o las <a href="{{ url_for('main.faq') }}">preguntas frecuentes</a>.</p>
+  </aside>
 </section>
 {% endblock %}

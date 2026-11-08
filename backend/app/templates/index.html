@@ -1,89 +1,136 @@
 {% extends "base.html" %}
+{% from "_icons.html" import icon %}
+{% block body_class %}home{% endblock %}
 {% block content %}
-<section class="hero">
-  <div class="wrap hero-grid">
-    <div class="hero-copy">
-      <p class="kicker">Ciberseguridad y cumplimiento normativo</p>
+<section class="hero-v4">
+  <canvas id="hero-canvas" aria-hidden="true"></canvas>
+  <div class="wrap hero-v4-grid">
+    <div class="hero-v4-copy">
+      <p class="hero-kicker">Consultoría de ciberseguridad y cumplimiento normativo</p>
       <h1>Que el auditor no sea el primero en encontrar tus fallos.</h1>
-      <p class="lead">Consultoría para empresas y administraciones públicas: auditoría interna, ISO/IEC 27001, Esquema Nacional de Seguridad y NIS2.</p>
-      <div class="actions">
-        <a class="btn" href="{{ url_for('cliente.solicitar') }}">Solicitar una auditoría</a>
-        <a class="btn btn-ghost" href="{{ url_for('main.servicios') }}">Ver servicios</a>
+      <p class="hero-lead">Preparamos a empresas y administraciones públicas para ISO/IEC 27001, el Esquema Nacional de Seguridad y NIS2, con auditorías internas que encuentran los problemas a tiempo.</p>
+      <div class="hero-actions">
+        <a class="btn btn-lg" href="{{ url_for('cliente.solicitar') }}">Solicitar una auditoría</a>
+        <a class="hero-link" href="#diagnostico">¿Qué normas te afectan? Compruébalo en un minuto</a>
       </div>
+      <ul class="hero-proof">
+        <li>Auditorías según ISO 19011</li>
+        <li>Precios publicados</li>
+        <li>Respuesta en 48 horas</li>
+      </ul>
     </div>
-    <div class="hero-art">
-      <img src="{{ url_for('static', filename='img/hero.svg') }}" width="480" height="480" alt="">
-    </div>
-  </div>
-</section>
 
-<section class="credenciales">
-  <div class="wrap cred-grid">
-    {% for c in credenciales %}
-    <div class="cred reveal">
-      <h2>{{ c.titulo }}</h2>
-      <p>{{ c.texto }}</p>
-    </div>
-    {% endfor %}
-  </div>
-</section>
-
-<section class="section">
-  <div class="wrap">
-    <h2 class="reveal">Así es un informe de hallazgos</h2>
-    <p class="reveal">Cada punto indica la norma, el estado y qué hacer. Ejemplo ilustrativo; pulsa un hallazgo para ver el detalle.</p>
-    <figure class="report reveal" aria-label="Ejemplo ilustrativo de informe de hallazgos">
-      <details class="finding" open>
+    <figure class="hero-report" aria-label="Ejemplo ilustrativo de informe de hallazgos">
+      <figcaption>
+        <span class="hr-title">Informe de hallazgos</span>
+        <span class="hr-sub">Ejemplo ilustrativo</span>
+      </figcaption>
+      <details class="hr-item" open>
         <summary>
           <span class="ref">ENS op.acc.5</span>
-          <span class="finding-title">Autenticación de usuarios externos</span>
+          <span class="hr-name">Autenticación de usuarios externos</span>
           <span class="status status-minor">No conformidad menor</span>
         </summary>
-        <p>El acceso remoto al panel de administración solo pide usuario y contraseña. Recomendación: añadir un segundo factor de autenticación.</p>
+        <p>El panel de administración remoto solo pide usuario y contraseña. Recomendación: segundo factor de autenticación.</p>
       </details>
-      <details class="finding">
+      <details class="hr-item">
         <summary>
           <span class="ref">ISO 27001 A.8.13</span>
-          <span class="finding-title">Copias de seguridad</span>
+          <span class="hr-name">Copias de seguridad</span>
           <span class="status status-obs">Observación</span>
         </summary>
-        <p>Existen copias diarias, pero nunca se ha probado una restauración completa. Recomendación: programar una prueba trimestral y registrar el resultado.</p>
+        <p>Hay copias diarias, pero nunca se ha probado una restauración completa. Recomendación: prueba trimestral documentada.</p>
       </details>
-      <details class="finding">
+      <details class="hr-item">
         <summary>
           <span class="ref">NIS2 art. 21</span>
-          <span class="finding-title">Respuesta a incidentes</span>
+          <span class="hr-name">Respuesta a incidentes</span>
           <span class="status status-ok">Conforme</span>
         </summary>
-        <p>El procedimiento está aprobado por la dirección y se ha comprobado en un simulacro reciente.</p>
+        <p>Procedimiento aprobado por la dirección y comprobado en un simulacro reciente.</p>
       </details>
+      <div class="hr-meter" aria-hidden="true">
+        <span class="hr-meter-label">Grado de cumplimiento</span>
+        <span class="hr-bar"><span class="hr-fill"></span></span>
+      </div>
     </figure>
+  </div>
+</section>
+
+<section class="section" id="diagnostico">
+  <div class="wrap diag-grid">
+    <div class="diag-intro">
+      <h2 class="reveal">¿Qué normas te afectan?</h2>
+      <p class="reveal">Responde a estas preguntas y te diremos por dónde empezar. Las respuestas no se envían a ningún sitio: todo se calcula en tu navegador.</p>
+    </div>
+    <form class="diag reveal" id="diag-form" novalidate>
+      <fieldset>
+        <legend class="sr-only">Preguntas del autodiagnóstico</legend>
+        {% for slug, pregunta in diagnostico %}
+        {% set s = get_service(slug) %}
+        <label class="diag-q">
+          <input type="checkbox" value="{{ slug }}" data-nombre="{{ s.nombre }}" data-ref="{{ s.ref }}" data-url="{{ url_for('main.servicios') }}#{{ slug }}">
+          <span class="diag-switch" aria-hidden="true"></span>
+          <span class="diag-text">{{ pregunta }}</span>
+        </label>
+        {% endfor %}
+      </fieldset>
+      <div class="diag-result" id="diag-result" aria-live="polite" data-base-nombre="{{ get_service('auditoria-interna').nombre }}" data-base-url="{{ url_for('main.servicios') }}#auditoria-interna">
+        <p class="diag-empty">Marca las preguntas que encajan con tu organización para ver la recomendación.</p>
+      </div>
+      <a class="btn" href="{{ url_for('cliente.solicitar') }}">Solicitar un diagnóstico</a>
+    </form>
   </div>
 </section>
 
 <section class="section section-tint">
   <div class="wrap">
-    <h2 class="reveal">Qué normas y servicios cubrimos</h2>
-    <ul class="norm-list">
-      {% for s in services[:6] %}
+    <div class="section-head">
+      <h2 class="reveal">Servicios</h2>
+      <a class="textlink reveal" href="{{ url_for('main.tarifas') }}">Ver tarifas y calculadora</a>
+    </div>
+    <ul class="svc-grid">
+      {% for s in services %}
       <li class="reveal">
-        <a href="{{ url_for('main.servicios') }}#{{ s.slug }}">
-          <span class="norm-name">{{ s.nombre }}</span>
+        <a class="svc-card" href="{{ url_for('main.servicios') }}#{{ s.slug }}">
+          {{ icon(s.slug, 36) }}
+          <span class="svc-name">{{ s.nombre }}</span>
           <span class="ref">{{ s.ref }}</span>
+          <span class="svc-price">Desde {{ s.precio_min|euros }}{{ s.unidad }}</span>
         </a>
       </li>
       {% endfor %}
     </ul>
-    <p><a class="textlink" href="{{ url_for('main.servicios') }}">Ver los {{ services|length }} servicios</a></p>
   </div>
 </section>
 
 <section class="section">
   <div class="wrap">
+    <h2 class="reveal">Escenarios habituales</h2>
+    <p class="reveal note-lead">Ejemplos ilustrativos de proyectos tipo. No corresponden a clientes reales.</p>
+    <div class="cases">
+      {% for e in escenarios %}
+      <article class="case reveal">
+        <p class="case-tag">{{ icon(e.servicio, 22) }} {{ get_service(e.servicio).nombre }}</p>
+        <h3>{{ e.titulo }}</h3>
+        <dl>
+          <dt>Situación</dt><dd>{{ e.situacion }}</dd>
+          <dt>Enfoque</dt><dd>{{ e.enfoque }}</dd>
+          <dt>Duración habitual</dt><dd>{{ e.plazo }}</dd>
+        </dl>
+      </article>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="section section-ink">
+  <div class="wrap">
     <h2 class="reveal">Cómo trabajamos</h2>
-    <ol class="steps">
-      {% for titulo, texto in process %}
+    <ol class="timeline">
+      {% for titulo, texto, plazo in process %}
       <li class="reveal">
+        <span class="tl-when">{{ plazo }}</span>
         <h3>{{ titulo }}</h3>
         <p>{{ texto }}</p>
       </li>
@@ -92,9 +139,17 @@
   </div>
 </section>
 
-<section class="section section-tint">
-  <div class="wrap">
-    <h2 class="reveal">Nuestros principios</h2>
+<section class="section">
+  <div class="wrap why-grid">
+    <div>
+      <h2 class="reveal">Por qué Davem</h2>
+      {% for c in credenciales %}
+      <div class="why-item reveal">
+        <h3>{{ c.titulo }}</h3>
+        <p>{{ c.texto }}</p>
+      </div>
+      {% endfor %}
+    </div>
     <div class="values">
       {% for titulo, texto in valores %}
       <div class="value reveal">
@@ -106,24 +161,38 @@
   </div>
 </section>
 
-<section class="section">
+<section class="section section-tint">
   <div class="wrap">
-    <h2 class="reveal">Del blog</h2>
-    <ul class="post-list">
+    <div class="section-head">
+      <h2 class="reveal">Del blog</h2>
+      <a class="textlink reveal" href="{{ url_for('main.blog') }}">Todos los artículos</a>
+    </div>
+    <ul class="post-cards">
       {% for p in posts %}
       <li class="reveal">
-        <h3><a href="{{ url_for('main.blog_post', slug=p.slug) }}">{{ p.titulo }}</a></h3>
-        <p>{{ p.resumen }}</p>
+        <a class="post-card" href="{{ url_for('main.blog_post', slug=p.slug) }}">
+          <time datetime="{{ p.fecha }}">{{ p.fecha }}</time>
+          <span class="post-title">{{ p.titulo }}</span>
+          <span class="post-sum">{{ p.resumen }}</span>
+        </a>
       </li>
       {% endfor %}
     </ul>
   </div>
 </section>
 
-<section class="cta">
-  <div class="wrap cta-inner">
-    <h2>Cuéntanos qué necesitas y te decimos por dónde empezar.</h2>
-    <a class="btn" href="{{ url_for('cliente.solicitar') }}">Solicitar una auditoría</a>
+<section class="cta-v4">
+  <div class="wrap cta-v4-grid">
+    <div>
+      <h2>Cuéntanos qué necesitas y te decimos por dónde empezar.</h2>
+      <p>Te respondemos en un máximo de dos días laborables con una propuesta de reunión de 30 minutos, sin compromiso.</p>
+    </div>
+    <div class="cta-v4-side">
+      <a class="btn btn-lg" href="{{ url_for('cliente.solicitar') }}">Solicitar una auditoría</a>
+      <p class="cta-small">Firmamos un acuerdo de confidencialidad antes de ver cualquier dato de tu organización.</p>
+    </div>
   </div>
 </section>
+<script src="{{ url_for('static', filename='js/hero.js') }}" defer></script>
+<script src="{{ url_for('static', filename='js/diagnostico.js') }}" defer></script>
 {% endblock %}

@@ -6,13 +6,15 @@
   <title>{% block title %}Davem Cyber Consulting{% endblock %}</title>
   <meta name="description" content="{% block description %}Consultoría de ciberseguridad y cumplimiento normativo: auditoría interna, ISO 27001, ENS y NIS2.{% endblock %}">
   <link rel="icon" href="{{ url_for('static', filename='img/favicon.svg') }}" type="image/svg+xml">
+  <link rel="preload" href="{{ url_for('static', filename='fonts/inter-regular.woff') }}" as="font" type="font/woff" crossorigin>
+  <link rel="preload" href="{{ url_for('static', filename='fonts/lora-var.woff') }}" as="font" type="font/woff" crossorigin>
   <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
   <script src="{{ url_for('static', filename='js/main.js') }}" defer></script>
 </head>
-<body>
+<body class="{% block body_class %}{% endblock %}">
 <a class="skip" href="#contenido">Saltar al contenido</a>
 
-<header class="site-header">
+<header class="site-header" id="site-header">
   <div class="wrap bar">
     <a class="brand" href="{{ url_for('main.index') }}" aria-label="Davem Cyber Consulting, inicio">
       <img src="{{ url_for('static', filename='img/favicon.svg') }}" width="30" height="34" alt="">
@@ -20,6 +22,7 @@
     </a>
     <nav class="nav" aria-label="Principal">
       <a href="{{ url_for('main.servicios') }}">Servicios</a>
+      <a href="{{ url_for('main.tarifas') }}">Tarifas</a>
       <a href="{{ url_for('main.sobre') }}">Sobre nosotros</a>
       <a href="{{ url_for('main.blog') }}">Blog</a>
       <a href="{{ url_for('main.contacto') }}">Contacto</a>
@@ -58,11 +61,20 @@
     <div>
       <p class="foot-brand">Davem Cyber Consulting</p>
       <p>Consultoría de ciberseguridad y cumplimiento normativo.</p>
+      <p>Madrid, España · <a href="{{ url_for('main.contacto') }}">Contacto</a></p>
     </div>
     <div>
+      <p class="foot-title">Empresa</p>
       <p><a href="{{ url_for('main.servicios') }}">Servicios</a></p>
+      <p><a href="{{ url_for('main.tarifas') }}">Tarifas</a></p>
+      <p><a href="{{ url_for('main.faq') }}">Preguntas frecuentes</a></p>
       <p><a href="{{ url_for('main.blog') }}">Blog</a></p>
+    </div>
+    <div>
+      <p class="foot-title">Legal</p>
+      <p><a href="{{ url_for('main.aviso_legal') }}">Aviso legal</a></p>
       <p><a href="{{ url_for('main.privacidad') }}">Política de privacidad</a></p>
+      <p><a href="{{ url_for('main.cookies') }}">Política de cookies</a></p>
     </div>
     <p class="academic">Proyecto académico: empresa ficticia creada con fines docentes. Los datos de esta web no corresponden a una actividad comercial real.</p>
   </div>

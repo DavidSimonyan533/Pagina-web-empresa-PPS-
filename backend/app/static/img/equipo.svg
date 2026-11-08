@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 360" role="img" aria-label="Ilustración de un equipo revisando un informe de auditoría">
+  <rect x="20" y="40" width="480" height="290" rx="10" fill="#e1e8f0"/>
+  <rect x="150" y="70" width="220" height="230" rx="6" fill="#ffffff" stroke="#c7d0dd" stroke-width="2"/>
+  <rect x="150" y="70" width="220" height="14" rx="6" fill="#14213d"/>
+  <g fill="#c7d0dd"><rect x="172" y="104" width="120" height="8" rx="4"/><rect x="172" y="122" width="176" height="6" rx="3"/><rect x="172" y="136" width="150" height="6" rx="3"/></g>
+  <g>
+    <rect x="172" y="160" width="176" height="28" rx="4" fill="#f4f6f9"/><circle cx="186" cy="174" r="6" fill="#1d6f60"/><rect x="200" y="170" width="100" height="7" rx="3" fill="#46526b"/>
+    <rect x="172" y="196" width="176" height="28" rx="4" fill="#f4f6f9"/><circle cx="186" cy="210" r="6" fill="#e8a317"/><rect x="200" y="206" width="120" height="7" rx="3" fill="#46526b"/>
+    <rect x="172" y="232" width="176" height="28" rx="4" fill="#f4f6f9"/><circle cx="186" cy="246" r="6" fill="#a8321f"/><rect x="200" y="242" width="86" height="7" rx="3" fill="#46526b"/>
+  </g>
+  <g>
+    <circle cx="88" cy="170" r="26" fill="#2b4a7a"/><path d="M42 300c4-56 22-86 46-86s42 30 46 86z" fill="#14213d"/>
+    <path d="M118 236l40-14" stroke="#14213d" stroke-width="14" stroke-linecap="round"/>
+  </g>
+  <g>
+    <circle cx="432" cy="160" r="26" fill="#46526b"/><path d="M386 300c4-60 22-92 46-92s42 32 46 92z" fill="#2b4a7a"/>
+    <rect x="356" y="214" width="34" height="46" rx="4" fill="#ffffff" stroke="#14213d" stroke-width="3"/>
+    <path d="M364 238l6 6 12-14" fill="none" stroke="#e8a317" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+  <path d="M260 22l22 8v16c0 14-9 23-22 28-13-5-22-14-22-28V30z" fill="#14213d"/>
+  <path d="M250 44l7 7 13-15" fill="none" stroke="#e8a317" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

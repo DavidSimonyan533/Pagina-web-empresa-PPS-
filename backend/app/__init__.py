@@ -34,6 +34,9 @@ def create_app(test_config=None):
     app.register_blueprint(cliente.bp)
     app.register_blueprint(admin.bp)
 
+    from .content import euros
+    app.jinja_env.filters["euros"] = euros
+
     @app.after_request
     def security_headers(response):
         response.headers["Content-Security-Policy"] = (
@@ -65,10 +68,13 @@ def create_app(test_config=None):
 
     @app.errorhandler(429)
     def too_many(_):
+        from .events import registrar_evento
+        registrar_evento("limite_superado")
         return error_page(429, "Demasiados intentos", "Espera un minuto antes de volver a intentarlo.")
 
     @app.errorhandler(500)
     def server_error(_):
+        db.session.rollback()
         return error_page(500, "Algo ha fallado", "Inténtalo de nuevo en unos minutos.")
 
     @app.cli.command("create-admin")
@@ -88,6 +94,19 @@ def create_app(test_config=None):
         user.is_admin = True
         db.session.commit()
         click.echo(f"Administrador preparado: {email}")
+        click.echo("Al entrar en /admin te pedirá activar el doble factor.")
+
+    @app.cli.command("reset-2fa")
+    @click.option("--email", prompt="Correo de la cuenta")
+    def reset_2fa(email):
+        """Desactiva el doble factor de una cuenta (por si se pierde el móvil)."""
+        user = models.User.query.filter_by(email=email.strip().lower()).first()
+        if user is None:
+            raise click.ClickException("No existe ninguna cuenta con ese correo.")
+        user.totp_secret = None
+        user.totp_last_step = None
+        db.session.commit()
+        click.echo(f"Doble factor desactivado para {user.email}. Vuelve a activarlo al entrar en /admin.")
 
     return app
 

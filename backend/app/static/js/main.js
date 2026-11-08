@@ -18,3 +18,12 @@
   }, { threshold: 0.12 });
   items.forEach(function (el) { io.observe(el); });
 })();
+
+// Sombra en la cabecera al hacer scroll
+(function () {
+  var h = document.getElementById('site-header');
+  if (!h) return;
+  function check() { h.classList.toggle('scrolled', window.scrollY > 8); }
+  window.addEventListener('scroll', check, { passive: true });
+  check();
+})();

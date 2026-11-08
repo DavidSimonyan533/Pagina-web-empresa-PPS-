@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 320" role="img" aria-label="Ilustración de un sobre protegido por un escudo">
+  <circle cx="200" cy="160" r="140" fill="#e1e8f0"/>
+  <circle cx="200" cy="160" r="150" fill="none" stroke="#c7d0dd" stroke-width="1.5" stroke-dasharray="4 8"/>
+  <rect x="80" y="100" width="210" height="140" rx="8" fill="#ffffff" stroke="#14213d" stroke-width="4"/>
+  <path d="M84 106l101 74 101-74" fill="none" stroke="#14213d" stroke-width="4" stroke-linejoin="round"/>
+  <path d="M84 236l74-62M286 236l-74-62" fill="none" stroke="#c7d0dd" stroke-width="3"/>
+  <path d="M290 150l50 19v38c0 32-21 53-50 64-29-11-50-32-50-64v-38z" fill="#14213d"/>
+  <path d="M269 209l15 15 29-33" fill="none" stroke="#e8a317" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

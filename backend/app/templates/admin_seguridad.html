@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block title %}Registro de seguridad · Davem Cyber Consulting{% endblock %}
+{% block content %}
+<section class="page-head">
+  <div class="wrap">
+    <h1>Registro de seguridad</h1>
+    <p class="lead">Inicios de sesión, bloqueos por exceso de intentos, accesos denegados y acciones de administración.</p>
+  </div>
+</section>
+<section class="wrap admin">
+  {% include "_admin_tabs.html" %}
+  <div class="stats">
+    <p><strong>{{ resumen.login_fallido }}</strong> logins fallidos</p>
+    <p><strong>{{ resumen.limite_superado }}</strong> bloqueos por intentos</p>
+    <p><strong>{{ resumen.acceso_denegado }}</strong> accesos denegados</p>
+    <p><strong>{{ resumen['2fa_fallido'] }}</strong> códigos 2FA erróneos</p>
+  </div>
+
+  <form method="get" class="filter">
+    <label for="tipo">Filtrar por tipo</label>
+    <select id="tipo" name="tipo">
+      <option value="">Todos los eventos</option>
+      {% for clave, etiqueta in etiquetas.items() %}<option value="{{ clave }}"{% if clave == tipo %} selected{% endif %}>{{ etiqueta }}</option>{% endfor %}
+    </select>
+    <button class="btn btn-small" type="submit">Filtrar</button>
+  </form>
+
+  {% if eventos %}
+  <div class="table-scroll">
+    <table class="events">
+      <thead><tr><th scope="col">Fecha (UTC)</th><th scope="col">Evento</th><th scope="col">Cuenta</th><th scope="col">IP</th><th scope="col">Ruta</th><th scope="col">Detalle</th></tr></thead>
+      <tbody>
+        {% for e in eventos %}
+        <tr class="ev-{{ e.tipo }}">
+          <td>{{ e.creado.strftime('%d/%m/%Y %H:%M:%S') }}</td>
+          <td>{{ etiquetas.get(e.tipo, e.tipo) }}</td>
+          <td>{{ e.email or '—' }}</td>
+          <td><code>{{ e.ip or '—' }}</code></td>
+          <td><code>{{ e.ruta or '—' }}</code></td>
+          <td>{{ e.detalle or '' }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  <p class="note">Se muestran los 300 eventos más recientes.</p>
+  {% else %}
+  <p class="empty">No hay eventos registrados{% if tipo %} de este tipo{% endif %}.</p>
+  {% endif %}
+</section>
+{% endblock %}

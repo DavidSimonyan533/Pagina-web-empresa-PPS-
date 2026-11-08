@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% from "_macros.html" import field %}
+{% block title %}Doble factor · Davem Cyber Consulting{% endblock %}
+{% block content %}
+<section class="page-head">
+  <div class="wrap">
+    <h1>Doble factor de autenticación</h1>
+    {% if activo %}
+    <p class="lead">Está activado en tu cuenta. Al iniciar sesión te pediremos un código de tu aplicación.</p>
+    {% else %}
+    <p class="lead">Obligatorio para usar el panel de administración. Tardas un minuto.</p>
+    {% endif %}
+  </div>
+</section>
+<section class="wrap">
+  {% if current_user.tiene_2fa %}{% include "_admin_tabs.html" %}{% endif %}
+  {% if activo %}
+  <p class="status-line"><span class="status status-ok">Activo</span> Si pierdes el móvil, desactívalo desde la terminal con <code>docker compose exec -it web flask reset-2fa</code>.</p>
+  {% else %}
+  <ol class="setup-steps">
+    <li>
+      <h2>Instala una aplicación</h2>
+      <p>Google Authenticator, Microsoft Authenticator o Aegis (Android, código abierto).</p>
+    </li>
+    <li>
+      <h2>Añade la cuenta</h2>
+      {% if qr %}
+      <p>Escanea este código QR con la aplicación:</p>
+      <img class="qr" src="{{ qr }}" width="220" height="220" alt="Código QR para añadir la cuenta a la aplicación de autenticación">
+      <p>¿No puedes escanearlo? Introduce esta clave manualmente:</p>
+      {% else %}
+      <p>Introduce esta clave manualmente en la aplicación (tipo "basada en tiempo"):</p>
+      {% endif %}
+      <p class="secret-key"><code>{{ clave }}</code></p>
+    </li>
+    <li>
+      <h2>Confirma con un código</h2>
+      <form method="post" novalidate>
+        {{ form.hidden_tag() }}
+        {{ field(form.codigo, class="code-input", inputmode="numeric", autocomplete="one-time-code", maxlength="7") }}
+        <button class="btn" type="submit">Activar doble factor</button>
+      </form>
+    </li>
+  </ol>
+  {% endif %}
+</section>
+{% endblock %}

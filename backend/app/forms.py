@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
 from wtforms import BooleanField, DateField, PasswordField, SelectField, StringField, TextAreaField
-from wtforms.validators import DataRequired, Email, EqualTo, Length, Optional, ValidationError
+from wtforms.validators import DataRequired, Email, EqualTo, Length, Optional, Regexp, ValidationError
 
 from .content import SERVICES
 
@@ -28,6 +28,13 @@ class RegisterForm(FlaskForm):
 class LoginForm(FlaskForm):
     email = StringField("Correo electrónico", validators=[DataRequired(), Length(max=120)])
     password = PasswordField("Contraseña", validators=[DataRequired(), Length(max=128)])
+
+
+class CodigoForm(FlaskForm):
+    codigo = StringField(
+        "Código de 6 dígitos",
+        validators=[DataRequired(), Regexp(r"^\s*\d{3}\s?\d{3}\s*$", message="Escribe los 6 números de tu aplicación.")],
+    )
 
 
 class ContactForm(FlaskForm):

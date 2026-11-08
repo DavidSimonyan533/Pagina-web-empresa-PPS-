@@ -18,11 +18,17 @@ class User(UserMixin, db.Model):
     empresa = db.Column(db.String(120))
     password_hash = db.Column(db.String(255), nullable=False)
     is_admin = db.Column(db.Boolean, default=False, nullable=False)
+    totp_secret = db.Column(db.String(64))
+    totp_last_step = db.Column(db.Integer)
     creado = db.Column(db.DateTime(timezone=True), default=_now, nullable=False)
 
     solicitudes = db.relationship(
         "AuditRequest", backref="usuario", lazy=True, order_by="AuditRequest.creado.desc()"
     )
+
+    @property
+    def tiene_2fa(self):
+        return bool(self.totp_secret)
 
 
 class AuditRequest(db.Model):
@@ -47,6 +53,20 @@ class ContactMessage(db.Model):
     asunto = db.Column(db.String(120), nullable=False)
     mensaje = db.Column(db.Text, nullable=False)
     creado = db.Column(db.DateTime(timezone=True), default=_now, nullable=False)
+
+
+class SecurityEvent(db.Model):
+    """Registro de eventos de seguridad: inicios de sesión, bloqueos, accesos denegados, cambios de admin."""
+    __tablename__ = "security_events"
+
+    id = db.Column(db.Integer, primary_key=True)
+    tipo = db.Column(db.String(40), nullable=False, index=True)
+    email = db.Column(db.String(120))
+    user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
+    ip = db.Column(db.String(45))
+    ruta = db.Column(db.String(200))
+    detalle = db.Column(db.String(300))
+    creado = db.Column(db.DateTime(timezone=True), default=_now, nullable=False, index=True)
 
 
 @login_manager.user_loader

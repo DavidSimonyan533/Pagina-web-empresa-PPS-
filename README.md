@@ -27,10 +27,15 @@ python -c "import secrets; print(secrets.token_hex(32))"
 |---|---|
 | `/` | Portada |
 | `/servicios` | Catálogo de servicios |
-| `/sobre-nosotros`, `/blog`, `/contacto`, `/privacidad` | Páginas informativas y formulario de contacto |
+| `/tarifas` | Packs, calculadora de presupuesto y precios por servicio |
+| `/sobre-nosotros`, `/blog`, `/contacto`, `/preguntas-frecuentes` | Páginas informativas y formulario de contacto |
+| `/aviso-legal`, `/privacidad`, `/cookies` | Páginas legales (LSSI-CE y RGPD) |
 | `/registro`, `/login` | Alta y acceso de usuarios |
 | `/cliente/` | Área de cliente (requiere sesión) |
 | `/cliente/solicitar-auditoria` | Formulario de solicitud (requiere sesión) |
+| `/admin/` | Panel de administración (admin con doble factor) |
+| `/admin/seguridad` | Registro de eventos de seguridad |
+| `/admin/doble-factor` | Activación del doble factor |
 | `/health` | Comprobación de estado |
 
 ## Estructura
@@ -58,6 +63,14 @@ python -c "import secrets; print(secrets.token_hex(32))"
     └── tests/
 ```
 
+## Diseño y experiencia
+
+- **Portada con fondo WebGL propio** (`static/js/hero.js`): red de nodos animada que reacciona al ratón. Se pausa cuando no está a la vista y, si el usuario prefiere movimiento reducido, se dibuja estática. Sin vídeos ni recursos externos.
+- **Autodiagnóstico** en la portada (`static/js/diagnostico.js`): recomienda servicios según las respuestas. No envía datos: se calcula en el navegador.
+- **Tipografías Inter y Lora alojadas en la propia web** (`static/fonts/`, licencia SIL OFL 1.1), sin Google Fonts.
+- Escenarios de ejemplo, línea de tiempo con plazos, tarifas con calculadora e iconos e ilustraciones SVG propios.
+- Todo funciona con la `Content-Security-Policy` estricta: ningún script, estilo, fuente ni imagen de terceros.
+
 ## Medidas de seguridad incluidas
 
 - Contraseñas guardadas con **Argon2** (nunca en claro) y mínimo de 12 caracteres.
@@ -71,15 +84,17 @@ python -c "import secrets; print(secrets.token_hex(32))"
 - Páginas de sesión y de cliente con `Cache-Control: no-store`.
 - Tamaño máximo de petición de 64 KB.
 - Contenedor sin root y base de datos **sin puertos publicados** en el equipo.
+- **Doble factor (TOTP, RFC 6238)** obligatorio para el panel de administración; los códigos no se pueden reutilizar.
+- **Registro de eventos de seguridad**: logins correctos y fallidos, bloqueos por exceso de intentos, accesos denegados, códigos 2FA erróneos y cambios hechos por el administrador, con IP y ruta.
+- Cuentas de administrador solo creables desde la terminal del servidor, nunca desde la web.
 - Secretos fuera del código (`.env` está en `.gitignore`).
 
 ## Limitaciones conocidas (mejoras futuras)
 
 - No hay verificación del correo electrónico ni recuperación de contraseña.
-- No hay doble factor de autenticación.
+- El doble factor solo está disponible para administradores.
 - El servicio funciona por HTTP en local; en un despliegue real hace falta HTTPS (por ejemplo con un proxy inverso) y `COOKIE_SECURE=true`.
 - El limitador guarda los contadores en memoria (por eso se usa un solo proceso de gunicorn); en producción conviene Redis.
-- No hay panel de administración para gestionar solicitudes y mensajes.
 - La política de privacidad y los textos son de ejemplo.
 
 ## Pruebas
@@ -104,7 +119,13 @@ Las cuentas de administrador no se crean desde la web. Se crean desde la termina
 docker compose exec -it web flask create-admin
 ```
 
-Te pedirá correo, nombre y contraseña (mínimo 12 caracteres). Después entra con esa cuenta y pulsa **Administración** en la cabecera, o ve a `/admin`. Desde ahí puedes ver las solicitudes de auditoría, cambiar su estado, leer los mensajes de contacto y consultar los usuarios.
+Te pedirá correo, nombre y contraseña (mínimo 12 caracteres). Después entra con esa cuenta y pulsa **Administración** en la cabecera, o ve a `/admin`. La primera vez te pedirá activar el doble factor con una aplicación como Google Authenticator, Microsoft Authenticator o Aegis.
+
+Si pierdes el móvil, desactiva el doble factor de una cuenta con:
+
+```bash
+docker compose exec -it web flask reset-2fa
+``` Desde ahí puedes ver las solicitudes de auditoría, cambiar su estado, leer los mensajes de contacto y consultar los usuarios.
 
 ## Acceso desde la red local (clase)
 
@@ -115,3 +136,11 @@ New-NetFirewallRule -DisplayName "Davem Web 8000" -Direction Inbound -Protocol T
 ```
 
 Mientras la web esté expuesta, la conexión es HTTP sin cifrar. Apaga el servicio con `docker compose down` cuando termines.
+
+## Actualizar a una versión nueva
+
+Al arrancar, `init_db.py` crea las tablas que falten y añade las columnas nuevas a las tablas existentes, así que no hace falta borrar la base de datos (`docker compose down -v`) al actualizar el código. Basta con:
+
+```bash
+docker compose up --build
+```

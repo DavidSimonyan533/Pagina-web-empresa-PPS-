@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %}Preguntas frecuentes · Davem Cyber Consulting{% endblock %}
+{% block content %}
+<section class="page-head">
+  <div class="wrap">
+    <h1>Preguntas frecuentes</h1>
+    <p class="lead">Lo que más nos preguntan antes de empezar un proyecto.</p>
+  </div>
+</section>
+<section class="wrap faq">
+  {% for pregunta, respuesta in faq %}
+  <details class="faq-item">
+    <summary>{{ pregunta }}</summary>
+    <p>{{ respuesta }}</p>
+  </details>
+  {% endfor %}
+  <p class="alt">¿No encuentras tu respuesta? <a href="{{ url_for('main.contacto') }}">Escríbenos</a>.</p>
+</section>
+{% endblock %}

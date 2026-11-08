@@ -1,0 +1,7 @@
+Tipografías alojadas en la propia web (no se cargan desde servidores externos).
+
+- Inter, de Rasmus Andersson. Licencia SIL Open Font License 1.1. https://rsms.me/inter/
+- Lora, de Cyreal. Licencia SIL Open Font License 1.1. https://github.com/cyrealtype/Lora-Cyrillic
+
+Ambas se han reducido al juego de caracteres latino (español incluido) para que pesen menos.
+Texto completo de la licencia: https://openfontlicense.org
