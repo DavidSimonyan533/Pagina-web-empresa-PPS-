@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %}{{ titulo }} · Davem Cyber Consulting{% endblock %}
+{% block content %}
+<section class="page-head">
+  <div class="wrap">
+    <p class="ref">Error {{ codigo }}</p>
+    <h1>{{ titulo }}</h1>
+    <p class="lead">{{ texto }}</p>
+    <p><a class="btn" href="{{ url_for('main.index') }}">Volver al inicio</a></p>
+  </div>
+</section>
+{% endblock %}

@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% from "_macros.html" import field %}
+{% block title %}Solicitar auditoría · Davem Cyber Consulting{% endblock %}
+{% block content %}
+<section class="page-head">
+  <div class="wrap">
+    <h1>Solicitar una auditoría</h1>
+    <p class="lead">Cuéntanos tu situación. Revisaremos la solicitud y te propondremos una primera reunión.</p>
+  </div>
+</section>
+<section class="wrap form-wrap">
+  <form method="post" novalidate>
+    {{ form.hidden_tag() }}
+    {{ field(form.servicio) }}
+    {{ field(form.tamano) }}
+    {{ field(form.fecha_preferida, type="date") }}
+    {{ field(form.descripcion, rows=6, hint="Qué actividad tenéis, qué sistemas usáis y qué os ha llevado a pedir la auditoría.") }}
+    <button class="btn" type="submit">Enviar solicitud</button>
+  </form>
+</section>
+{% endblock %}

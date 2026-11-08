@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% from "_macros.html" import field %}
+{% block title %}Acceder · Davem Cyber Consulting{% endblock %}
+{% block content %}
+<section class="page-head">
+  <div class="wrap">
+    <h1>Acceder</h1>
+  </div>
+</section>
+<section class="wrap form-wrap">
+  <form method="post" novalidate>
+    {{ form.hidden_tag() }}
+    {{ field(form.email, autocomplete="username", type="email") }}
+    {{ field(form.password, autocomplete="current-password") }}
+    <button class="btn" type="submit">Acceder</button>
+  </form>
+  <p class="alt">¿Aún no tienes cuenta? <a href="{{ url_for('auth.registro') }}">Créala</a></p>
+</section>
+{% endblock %}
